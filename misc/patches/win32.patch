@@ -1,0 +1,53 @@
+diff -ur bootstrap.toka bootstrap.toka
+--- bootstrap.toka	2007-10-11 01:49:58.000000000 -0400
++++ bootstrap.toka	2007-10-11 20:08:04.000000000 -0400
+@@ -202,6 +202,7 @@
+ #! ---------------------------------------
+ #! Strings
+ #! ---------------------------------------
++from msvcrt.dll
+ {
+   1 import strlen 
+   [ dup strlen ]
+diff -ur ffi.c ffi.c
+--- ffi.c	2007-10-11 01:49:58.000000000 -0400
++++ ffi.c	2007-10-11 20:08:04.000000000 -0400
+@@ -29,7 +29,8 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+-#include <dlfcn.h>
++
++#include <windows.h>
+ 
+ extern Inst *heap;
+ extern VM_STACK data, address, alternate;
+@@ -114,7 +115,7 @@
+     scratch = (char *)TOS; DROP;
+   }
+ 
+-  library = dlopen(scratch, RTLD_LAZY);
++  library = LoadLibrary(scratch);
+ 
+   if (library == NULL)
+   {
+@@ -150,7 +151,7 @@
+   }
+ 
+   args = TOS; DROP;
+-  xt = (long)dlsym(library, scratch);
++  xt = (long)GetProcAddress(library, scratch);
+ 
+   if (xt != (long)NULL)
+   {
+diff -ur toka.h toka.h
+--- toka.h	2007-10-11 19:20:23.000000000 -0400
++++ toka.h	2007-10-11 20:08:28.000000000 -0400
+@@ -27,8 +27,8 @@
+  * These specify the paths to the library and bootstrap
+  * file. Set them as desired or needed by your system.
+  ******************************************************/
+-#define LIBRARY "/usr/share/toka/library/" 
+-#define BOOTSTRAP "/usr/share/toka/bootstrap.toka"
++#define LIBRARY "c:\\toka\\library\\" 
++#define BOOTSTRAP "c:\\toka\\bootstrap.toka"

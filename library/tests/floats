@@ -1,0 +1,151 @@
+i: Floats
+needs floats
+
+[ f= [ ." \nFailed\n" cr bye ] ifFalse ] is ftry
+
+t:  float:
+  float: 104.1   float: 104.1  ftry
+  float: 200.12  float: 200.12 ftry
+t:  fdup
+  float: 100     fdup   
+  float: 100 ftry 
+  float: 100 ftry
+t:  fdrop
+  float: 101.1   float: 102.341   fdrop
+  float: 101.1   ftry
+t:  fswap
+  float: 101.12  float: 102.341   fswap
+  float: 101.12  ftry
+  float: 102.341 ftry
+t:  fdepth
+  float: 1   float: 2   float: 3
+  fdepth 3 try
+t:  freset
+  freset
+  fdepth 0 try
+t: fnip
+  float: 1   float: 2   fnip
+  fdepth 1 try
+  float: 2 ftry
+t: frot
+  float: 1   float: 2   float: 3
+  frot
+  float: 1 ftry
+  float: 3 ftry
+  float: 2 ftry
+t: f-rot
+  float: 1   float: 2   float: 3
+  f-rot
+  float: 2 ftry
+  float: 1 ftry
+  float: 3 ftry
+
+cr
+
+t:  fover
+  float: 1.1
+  float: 2.2
+  fover
+  float: 1.1 ftry
+  float: 2.2 ftry
+  float: 1.1 ftry
+t:  ftuck
+  float: 1.1
+  float: 2.2
+  ftuck
+  float: 2.2 ftry
+  float: 1.1 ftry
+  float: 2.2 ftry
+t:  f2dup
+  float: 1
+  float: 2
+  f2dup
+  float: 2 ftry
+  float: 1 ftry
+  float: 2 ftry
+  float: 1 ftry
+t:  f2drop
+  float: 1
+  float: 2
+  float: 3
+  f2drop
+  float: 1 ftry
+t:  f+
+  float: 1
+  float: 2
+  f+
+  float: 3 ftry
+t:  f-
+  float: 2
+  float: 1
+  f-
+  float: 1 ftry
+t:  f*
+  float: 2
+  float: 4
+  f*
+  float: 8 ftry
+t:  f/
+  float: 4
+  float: 2
+  f/
+  float: 2 ftry
+t:  >float
+  100 >float
+  float: 100 ftry
+t:  float>
+  float: 100
+  float> 100 try
+
+cr
+
+t:  f=
+  float: 1
+  float: 2
+  f=
+  FALSE try
+  float: 1
+  float: 1
+  f=
+  TRUE try
+t:  f<
+  float: 2
+  float: 1
+  f<
+  FALSE try
+  float: 1
+  float: 2
+  f<
+  TRUE try
+t:  f>
+  float: 1
+  float: 2
+  f>
+  FALSE try
+  float: 2
+  float: 1
+  f>
+  TRUE try
+t:  f<>
+  float: 1
+  float: 1
+  f<>
+  FALSE try
+  float: 2
+  float: 1
+  f<>
+  TRUE try
+t:  fvariable
+  fvariable foo
+t:  f!
+  float: 100 foo f!
+t:  f@
+  foo f@ float: 100 ftry
+t:  fvalue
+  fvalue foo
+  foo float: 0 ftry
+t:  fto
+  float: 100 fto foo
+  foo float: 100 ftry
+  float: 0 fto foo
+  foo float: 0 ftry

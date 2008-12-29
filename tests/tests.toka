@@ -1,0 +1,42 @@
+#! /usr/bin/toka
+
+[ 64 0 [ char: - emit ] countedLoop ] is ---
+
+[ = [ ." \nFailed\n" cr bye ] ifFalse ] is try
+[ cr --- cr include ] is include
+
+[ lnparse type cr ] is i:
+[ lnparse type SPACE emit ] is t:
+
+i: TESTS BEGIN
+--- cr
+i: If any of these fail, please email the results to charles.childers@gmail.com 
+--- cr
+
+include stack
+include quotes
+include math
+include conditionals
+include data
+include parser
+include dictionary
+include array
+include bits
+include scope
+
+cr
+--- cr
+i: This test has also made use of the following
+i: words:
+i: 
+i:   include
+i:   copy
+i:   #
+i:   parse
+i: 
+i: By reaching this point we have reasonible 
+i: confidence that all of these words operate as
+i: expected.
+--- cr
+i: COMPLETED
+bye

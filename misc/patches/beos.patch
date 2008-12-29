@@ -1,0 +1,12 @@
+diff -ur toka.h toka.h
+--- toka.h	2007-10-11 19:20:23.000000000 -0400
++++ toka.h	2007-10-12 01:28:43.000000000 -0400
+@@ -27,8 +27,8 @@
+  * These specify the paths to the library and bootstrap
+  * file. Set them as desired or needed by your system.
+  ******************************************************/
+-#define LIBRARY "/usr/share/toka/library/" 
+-#define BOOTSTRAP "/usr/share/toka/bootstrap.toka"
++#define LIBRARY "/boot/apps/TokaLanguage/library/" 
++#define BOOTSTRAP "/boot/apps/TokaLanguage/bootstrap.toka"
+

@@ -1,0 +1,81 @@
+#! /usr/bin/toka
+#! A small Forth interpreter written in Toka.
+#! ==========================================================
+#! Objective:
+#!   Implement a dialect of Forth (non-ANS compliant) in Toka
+#!   Toka has many similarities to Forth. Many common things
+#!   are literally just syntax sugar.
+#! ==========================================================
+#! Done so far:
+#!   : ; ;immediate for next \ .s if else then
+#!   see
+#!
+#! Notes:
+#!   - Strings are zero terminated, not packed or address/count
+#!     pairs
+#!
+#! Issues:
+#!   - Loops may not be 100% standard at this time
+#! ==========================================================
+#!   REV      DATE       NOTES
+#! ----------------------------------------------------------
+#!    -     20070621     Implementation begins
+#!          20070824     Minor tweaks; Added comments
+#!          20070922     Switched to Toka strings
+#!                       Fixed loops to work with Toka 1.1
+#! ==========================================================
+
+#! ==========================================================
+#! In Forth, words are normally created using a form like:
+#!    : wordname  ( stack comment )  definition ;
+#!
+#! To provide this, we need to:
+#!    1) Have : parse for a name, and start a new quote for
+#!       the definition
+#!    2) Stack comments are already supported in Toka
+#!    3) Have ; close the quote, and then disable the parser,
+#!       attach the name from :, and then reenable the parser
+#!
+#! Optionally, in Forth, words can be marked as IMMEDIATE,
+#! which corresponds to the Toka is-macro form. We provide
+#! ';immediate' instead of '; immediate' to keep things
+#! simple.
+#! ==========================================================
+[ wsparse ` [ invoke ] is :
+[ ` ] invoke parser off swap is parser on ] is-macro ;
+[ ` ] invoke parser off swap is-macro parser on ] is-macro ;immediate
+
+
+#! ==========================================================
+#! Loop Forms
+#!
+#!  COUNT for ...code... next
+#!  UPPER LOWER do ...code... loop
+#! ==========================================================
+[ 0 # ` [ invoke ] is-macro for
+[ ` ] invoke ` countedLoop compile ] is-macro next
+
+
+#! ==========================================================
+#! Forth style conditionals take a form like:
+#!   FLAG if ...true... else ...false... then
+#! Or:
+#!   FLAG if ...true ... then
+#!
+#! This provides a set of wrappers that translate the Forth
+#! form to Toka-style quoted conditionals using ifTrueFalse.
+#! ==========================================================
+: if FALSE ` [ invoke ;immediate
+: else ` ] invoke drop TRUE ` [ invoke ;immediate
+: then ` ] invoke [ ` ifTrueFalse compile ] [ ` ifTrue compile ] ifTrueFalse ;immediate
+
+
+#! ==========================================================
+#! These are just some thin wrappers to provide more 
+#! traditional names for some functionality.
+#! ==========================================================
+: .s :stack ;
+` #! is-macro \\
+: see ` ` invoke :see ;
+
+escape-sequences off

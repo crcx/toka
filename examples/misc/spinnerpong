@@ -1,0 +1,23 @@
+#! /usr/bin/toka
+needs console
+needs sdl
+
+0 0 sdl_setup drop
+
+[ char: . emit ] is dot
+
+[ 4 mod " |/-\\" + c@ emit ] is spinner
+
+[ 0 [ space ] countedLoop ] is spaces
+
+[ 24 mod dup 24 swap - dup swap
+  spinner swap
+  dup 12 >
+  [ 12 - dup 11 swap - spaces dot spaces ]
+  [ dup 11 swap - swap spaces dot spaces ]
+  ifTrueFalse
+  4 mod 4 swap - spinner
+] is pingpong
+
+[ clear 1500 0 [ home i pingpong 1 SDL_Delay drop ] countedLoop ] is demo
+demo cr bye

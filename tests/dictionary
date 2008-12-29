@@ -1,0 +1,21 @@
+i: Dictionary
+t:  is-macro
+   [ 1 1 try ] is-macro [1]
+   [ [1] ] 
+t:  is
+   1 2 [ 3 ] is foo
+   foo 3 try 2 try 1 try
+t:  is-data
+   100 malloc dup is-data foo
+   foo try
+t:  `
+   [ ] dup is foo ` foo try
+   ` badaq 0 try
+   [ ` foo ] invoke ` foo try
+   ` 3 0 try
+   [ ` 3 ] invoke 0 try
+t:  last
+t:  :xt
+   [ ] dup is foo last @ :xt try
+t:  :class
+   [ ] is foo last @ :class .WORD try

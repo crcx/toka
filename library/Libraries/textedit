@@ -1,0 +1,7 @@
+from /usr/share/toka/library/C/textedit.so
+
+0 import get_buffer as edit.getBuffer
+{ 1 import load [ load drop ] } is edit.load
+{ 1 import save [ save drop ] } is edit.save
+{ 0 import edit [ edit drop ] } is edit.start
+{ 0 import draw [ draw drop ] } is edit.redraw

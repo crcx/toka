@@ -1,0 +1,104 @@
+#! /usr/bin/toka
+#! Chat client written in Toka
+#! =====================================================================
+#! Objective:
+#!   Implement chat client for point to point communication
+#!   
+#! =====================================================================
+#! Primitives: 
+#!     start-chat
+#!     host-chat
+#!     client-chat
+#!
+#! Usage: 
+#!       
+#!    host or client  ( You will be the host or client )
+#!   
+#!
+#! Status:
+#!       Host currently works with telnet.
+#!       Toka to Toka is working now.
+#!       
+#! =====================================================================
+
+#! Libraries
+needs sockets
+needs readline
+
+#! Global Data && Utilities
+from libc.so.6
+3 import memset     #! void *memset(void *s, int c, size_t n);
+
+#! Handle Host connection. 
+
+{ #! Start Scope
+
+#! Data
+ 1024 chars is-data 1KiB
+ 1KiB is-array buffer
+ variable| socket connection |
+ value message
+
+#! Utility quotes
+ [ buffer 0 1KiB memset reset ] is reset
+
+ [ 4444 pBind socket !
+   socket @ pAccept connection !
+ ] is host-chat
+
+ [ socket @ pClose ] is end-connection
+
+ [ char: \n string.appendChar >r connection @ r> string.getLength pWrite ] is send
+
+ [ connection @ buffer 1KiB pRead ] is get-text
+
+ [ ." > " readline to message ] is chat
+
+ [
+  [ 
+   chat
+   message send
+   get-text
+   buffer type
+   end-connection
+   reset
+   TRUE
+  ] whileTrue
+ ] is start-chat
+
+[ host-chat start-chat ]
+} is host  #! End Scope 
+
+#! Handle Client connection. 
+
+{ #! Start Scope
+#! Data
+ 1024 chars is-data 1KiB
+ 1KiB is-array buffer
+ variable socket
+ value message
+
+#! Utility quotes
+ [ buffer 0 1KiB memset reset ] is reset
+
+ [ " localhost" 4444 pConnect socket ! ] is client-chat
+
+ [ char: \n string.appendChar >r socket @ r> string.getLength pWrite ] is send
+
+ [ socket @ buffer 1KiB pRead ] is get-text
+
+ [ ." > " readline to message ] is chat
+
+ [
+  [ 
+   chat
+   message send
+   get-text
+   buffer type
+   reset
+   TRUE
+  ] whileTrue
+ ] is start-chat
+
+[ client-chat start-chat ]
+} is client 

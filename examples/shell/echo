@@ -1,0 +1,11 @@
+#! /usr/bin/toka
+
+#! ================================================
+#! A simple, almost V7 compatible version of the 
+#! 'echo' utility. 
+#!
+#! Todo:
+#!   Add -n flag (no trailing newline)
+#! ================================================
+
+[ 1 #args [ i arglist array.get type space ] countedLoop cr bye ] invoke

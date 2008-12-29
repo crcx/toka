@@ -1,0 +1,62 @@
+from libSDL.so
+0 import SDL_Quit
+
+1 import SDL_Delay
+0 import SDL_GetTicks
+
+1 import SDL_PollEvent
+1 import SDL_WaitEvent
+
+[ SDL_Quit bye ] is bye
+
+from /usr/share/toka/library/C/sdl.so
+2 import sdl_setup
+0 import sdl_render
+0 import sdl_surface_size
+0 import sdl_event_size
+{ 3 import sdl_putpixel [ sdl_putpixel drop ] } is putpixel
+1 import sdl_event_type
+{ 4 import sdl_circle [ sdl_circle drop ] } is circle
+
+{ 5 import sdl_angle_line [ sdl_angle_line drop ] } is aline
+{ 4 import sdl_hline [ sdl_hline drop ] } is hline
+{ 4 import sdl_vline [ sdl_vline drop ] } is vline
+{ 5 import sdl_line  [ sdl_line drop ] } is line
+{ 5 import sdl_box   [ sdl_box drop ] } is box
+
+{ 
+  1 import sdl_event_mousecoord_x
+  1 import sdl_event_mousecoord_y
+  [ dup >r sdl_event_mousecoord_x
+        r> sdl_event_mousecoord_y
+  ]
+} is get-mouse-coords
+
+1 import sdl_event_keysym as get-keysym
+
+[ hex wsparse >number drop decimal compiler @ [ # ] ifTrue ] is-macro rgb:
+
+ 0 is-data SDL_NOEVENT
+ 1 is-data SDL_ACTIVEEVENT
+ 2 is-data SDL_KEYDOWN
+ 3 is-data SDL_KEYUP
+ 4 is-data SDL_MOUSEMOTION
+ 5 is-data SDL_MOUSEBUTTONDOWN
+ 6 is-data SDL_MOUSEBUTTONUP
+ 7 is-data SDL_JOYAXISMOTION
+ 8 is-data SDL_JOYBALLMOTION
+ 9 is-data SDL_JOYHATMOTION
+10 is-data SDL_JOYBUTTONDOWN
+11 is-data SDL_JOYBUTTONUP
+12 is-data SDL_QUIT
+13 is-data SDL_SYSWMEVENT
+14 is-data SDL_EVENT_RESERVEDA
+15 is-data SDL_EVENT_RESERVEDB
+16 is-data SDL_VIDEORESIZE
+17 is-data SDL_VIDEOEXPOSE
+
+273 is-data K_UP
+274 is-data K_DOWN
+276 is-data K_LEFT
+275 is-data K_RIGHT
+ 27 is-data K_ESC

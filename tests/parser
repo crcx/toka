@@ -1,0 +1,15 @@
+i: Parser
+t:   >number
+   [ 10 parse >number ] is #:
+   #: 10
+   -1 try 10 try
+cr
+i: Number prefixes
+t:   #
+   #100 #-100 -100 try 100 try
+t:   $
+   $a $-a -10 try 10 try
+t:   %%
+   %11 %-11 -3 try 3 try
+t:   &
+   &144 &-144 -100 try 100 try

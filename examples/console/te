@@ -1,0 +1,8 @@
+#! /usr/bin/toka
+needs textedit
+
+ " Text Editor\n./te.toka filename\n" is-data help
+
+#args 0 = [ help type bye ] ifTrue
+
+1 arglist array.get edit.load edit.start clear cr bye

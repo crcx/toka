@@ -1,0 +1,16 @@
+i: Scope
+t:  {  }
+  100 is-data foo
+  {
+    200 is-data foo
+    {
+      300 is-data foo
+      {
+        400 is-data foo
+        400 foo try
+      }
+      300 foo try
+    }
+    200 foo try
+  }
+  100 foo try

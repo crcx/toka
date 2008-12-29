@@ -1,0 +1,12 @@
+#! /usr/bin/toka
+needs html
+( html
+  ( head ( title ." HTML Generation from Toka" ) )
+  ( body 
+    id: content
+    ( div 
+      ( p ." Hello, World!" )
+    )
+  )
+)
+cr bye

@@ -1,0 +1,142 @@
+#! =================================================
+#! HTML Generation
+#!
+#! This was inspired by Stefan's RetroWeb, though it
+#! pales in comparison at this point.
+#!
+#! Features:
+#!  - Parenthetical Syntax
+#!  - Set attributes, id, styles for any element
+#!  - Use any (X)HTML tag
+#!  - Use external CSS files
+#! 
+#! Todo:
+#!   - Properly valid XHTML 1.1 output
+#!   - Form generation
+#!
+#! This code is primarily intended for use with the
+#! CGI library. The two libraries should, when used
+#! together, allow form processing and generation
+#! without too much headache.
+#! =================================================
+#! ( html
+#!   ( head ( title ." Example Page" ) )
+#!   ( body
+#!     ( h1 ." This is a header" )
+#!     ( p ." This is a paragraph" )
+#!     id: foo
+#!     ( p ." This is another paragraph, with an ID of 'foo'" )
+#!     style: background: #ececec;
+#!     ( p ." This paragraph has a style attached" )
+#!   )
+#! )
+#! =================================================
+
+{
+
+#! =================================================
+#! The Tag Stack
+#! =================================================
+1000 cells is-array <tags>
+
+[ keep <tags> @ 1 + <tags> array.put
+  1 <tags> +!
+] is push
+[ 1 <tags> -!
+  <tags> @ 1 + <tags> array.get
+] is pop
+
+
+#! =================================================
+#! Attribute Stack
+#! =================================================
+value| <general> <id> <style> |
+" " is-data <empty>
+[
+  <empty> to <general>
+  <empty> to <id>
+  <empty> to <style>
+] is reset-attrs
+reset-attrs
+
+
+#! =================================================
+#! Implement attributes
+#! =================================================
+[ to <general> ] is >general
+[ <general> type ] is .general
+
+[ to <id> ] is >id
+[ lnparse >id ] is id:
+[ <id> <empty> <> [ ."  id='" <id> type ." '" ] ifTrue ] is .id
+
+[ to <style> ] is >style
+[ lnparse >style ] is style:
+[ <style> <empty> <> [ ."  style='" <style> type ." '" ] ifTrue ] is .style
+
+[ .general .id .style reset-attrs ] is .attr
+
+#! =================================================
+#! Shortcuts for displaying some symbols. This is
+#! from RetroWeb.
+#! =================================================
+[ char: < emit ] is .<
+[ char: > emit ] is .>
+[ char: / emit ] is ./
+[ space ./ .> ]  is ./>
+[ .< ./ ]        is .</
+
+
+#! =================================================
+#! Core of tag generation
+#! =================================================
+[ .< dup push type .attr .> ] is (tag
+[ wsparse (tag ] is (
+[ .</ pop type .> ] is )
+[ .< type .attr space char: ) parse type ./> ] is (tag:
+[ .< type .attr ./> ] is (tag)
+
+
+#! =================================================
+#! Simple elements
+#! =================================================
+[ " br"    (tag) cr ] is (br)
+[ " hr"    (tag) cr ] is (hr)
+
+` style:
+` id:
+` (
+` )
+` (br)
+` (hr)
+}
+
+is (hr)
+is (br)
+is )
+is (
+is id:
+is style:
+
+#! =================================================
+#! Links. This is a little tricky, but they take a 
+#! form like:
+#!
+#!  (a http://url ." description" a)
+#!
+#! This may change in the future
+#! =================================================
+[ ." <a href='" wsparse type ." '>" ] is (a
+[ ." </a>" space ] is a)
+[ ." <link rel='stylesheet' type='text/css' href='" char: ) parse type ." '>" ] is (css
+
+#! =================================================
+#! Shortcuts for HTML escape characters. This is 
+#! from RetroWeb.
+#! =================================================
+[ ." &amp;"  ] is &;
+[ ." &lt;"   ] is <;
+[ ." &gt;"   ] is >;
+[ ." &quot;" ] is ";
+[ ." &nbsp;" ] is _;
+[ space      ] is _

@@ -1,0 +1,107 @@
+#! /usr/bin/toka 
+#! --------------------------------------------------------------
+#! This is the dictionary server; a small tool to present basic
+#! documentation about the Toka words via an HTTP-based interface
+#! --------------------------------------------------------------
+
+{
+  needs sockets
+  needs case
+  needs helpdb
+
+  include server
+  include help.toka
+
+  2 import strchr    #! char *strchr(const char *s, int c)
+  2 import strstr    #! char *strstr(const char *haystack, const char *needle)
+  2 import strtok    #! char *strtok(char *str, const char *delim)
+
+  [ swap string.clone swap strtok ] is string.findToken
+  [ swap string.clone swap strstr ] is string.findSubstring
+  [ swap string.clone swap strchr ] is string.findChar
+
+  8192 chars is-data 8KiB
+  8KiB is-array buffer
+
+  " \n "  is-data DELIMS
+  [ ( - ) 
+    buffer 8KiB server.recieve ] is get-request
+  [ ( -$ )
+    buffer " /" string.findSubstring char+ DELIMS string.findToken ] is extract-filename
+
+  " <html>
+    <head>
+    <title>Toka: Dictionary Server</title>
+    <style type=\"text/css\">
+    .name {  color: #000; padding: 5px; background: #E0DDD2; width: 600px%; font-size: 18pt; font-family: sans-serif; font-style: normal; font-weight: bold; }
+    .stack { color: #000; padding: 5px; background: #F2E5DD; font-size: 14pt; font-family: sans-serif; font-style: normal; }
+    .description { color: #000; padding: 5px; background: #F5E9C8; font-size: 12pt; font-family: sans-serif; font-style: normal; }
+    .related { color: #000; padding: 5px; background: #F2E5DD; font-size: 10pt; font-family: sans-serif; font-style: normal; }
+    .example { color: #000; padding: 5px; background: #E0DDD2; font-size: 10pt; font-family: sans-serif; font-style: normal; }
+    body { color: #fff; background: black; }
+    .content { border: 1px solid black; width: 80%; padding-left: 1%; padding-right: 40%; }
+    .content a { color: #ED008C; font-weight: bold; text-decoration: none; }
+    .menu4 {padding:0 0 0 1em; margin:0; list-style:none; height:35px; background:url(http://toka.s3.amazonaws.com/img/pro_four0.gif);}
+    .menu4 li {float:left;}
+    .menu4 li a {display:block; float:left; height:35px; line-height:33px; color:#aaa; text-decoration:none; font-family:arial, verdana, sans-erif; text-align:center; padding:0 0 0 14px; cursor:pointer; font-size:11px;}
+    .menu4 li a b {float:left; display:block; padding:0 28px 0 14px;}
+    .menu4 li.current a {color:#fff; background:url(http://toka.s3.amazonaws.com/img/pro_four2.gif);}
+    .menu4 li.current a b {background:url(http://toka.s3.amazonaws.com/img/pro_four2.gif) no-repeat right top;}
+    .menu4 li a:hover {color:#fff; background: url(http://toka.s3.amazonaws.com/img/pro_four1.gif);}
+    .menu4 li a:hover b {background:url(http://toka.s3.amazonaws.com/img/pro_four1.gif) no-repeat right top;}
+    .menu4 li.current a:hover {color:#fff; background: url(http://toka.s3.amazonaws.com/img/pro_four2.gif); cursor:default;}
+    .menu4 li.current a:hover b {background:url(http://toka.s3.amazonaws.com/img/pro_four2.gif) no-repeat right top;}
+    </style>
+    </head>
+    <body>
+    <div class=\"content\">
+  " is-data PREAMBLE
+
+  [ ( - ) PREAMBLE server.send ] is html-begin
+  [ ( - ) " </div></body></html>" server.send ] is html-end
+
+  [ ( - ) " <form id=\"main\" action=\"/\" method=\"get\">\n" server.send ] is form-begin
+  [ ( - ) " </form>\n" server.send ] is form-end
+
+  2 chars is-array output
+  value source
+  [ ( $- )
+    dup to source
+    string.getLength nip char+ 1 swap
+    [
+      i char- source array.getChar   
+      switch
+        char: < [ " &lt;"  server.send break ] case
+        char: > [ " &gt;"  server.send break ] case
+        char: & [ " &amp;" server.send break ] case
+        [ <cond> 0 output array.putChar output server.send ] default 
+    ] countedLoop
+  ] is send-with-escapes
+  [ ( $- ) " <option>" server.send send-with-escapes " </option>" server.send ] is <option>
+
+
+  [ ( - )
+    " <select name=\"word\" style='width: 200px;' size='20' onchange=\"javascript:document.getElementById('main').submit();\">\n" server.send
+    last @ 0 [ i :name <option> ] countedLoop
+    " </select>\n" server.send
+  ] is select-word
+
+  [ ( - )
+    extract-filename string.getLength 6 chars > [ 6 chars + ] ifTrue :getHelp server.send ] is display-help
+
+  [ ( - )
+    html-begin
+    form-begin
+    " <table>\n<tr><td width='200px'>" server.send
+    select-word
+    " </td><td valign='top' width='600px'>" server.send 
+    display-help " </td>" server.send
+    " </tr></table><br/><br/><br/><br/>" server.send
+    form-end
+    html-end
+  ] is send-table
+
+  [ get-request send-table ] keep 9812 ` server.start
+} invoke
+bye
+

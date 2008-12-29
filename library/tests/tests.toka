@@ -1,0 +1,27 @@
+#! /usr/bin/toka
+
+[ 64 0 [ char: - emit ] countedLoop ] is ---
+
+[ = [ ." \nFailed\n" cr bye ] ifFalse ] is try
+[ cr --- cr include ] is include
+
+[ lnparse type cr ] is i:
+[ lnparse type SPACE emit ] is t:
+
+i: TESTS BEGIN
+--- cr
+i: If any of these fail, please email the results to charles.childers@gmail.com 
+--- cr
+include asarray
+include case
+include conditionals
+include console
+include ctype
+include floats
+include helpdb
+include math
+include quotes
+cr
+--- cr
+i: COMPLETED
+bye

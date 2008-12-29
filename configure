@@ -1,0 +1,486 @@
+#! /bin/sh
+
+##################################################################
+# Toka Configuration Script
+#
+# This is used to generate a custom Makefile. It asks for the 
+# requested options, then builds the Makefile. 
+##################################################################
+
+
+##################################################################
+# Variables for configuration options.
+##################################################################
+platform="unix"                 # What is the host OS? Default to 
+                                # 'unix', which covers Linux & BSD
+                                #
+ffi=""                          # Compiler flags for linking to
+                                # the library implementing dlopen
+                                # and dlsym.
+                                #
+enable_library="no"             # Enable building/install of the
+                                # library?
+                                #
+lib_sockets="enabled"           # Sockets Library
+                                #
+lib_cgi="enabled"               # CGI Library
+                                #
+lib_shell="enabled"             # Shell Library
+                                #
+lib_console="disabled"          # Console Library
+                                #
+lib_floats="enabled"            # Floating Point Library
+                                #
+lib_textedit="disabled"         # Text Editor Library
+                                #
+lib_sdl="disabled"              # SDL Library
+##################################################################
+
+
+
+##################################################################
+# This is called once, at startup, to remove the old Makefiles.
+##################################################################
+cleanup()
+{
+  rm -f Makefile toka/Makefile library/C/Makefile
+}
+
+
+##################################################################
+# This reads in input from the user.
+##################################################################
+input()
+{
+  read response
+  echo $response
+}
+
+
+##################################################################
+# Display the standard configuration header.
+##################################################################
+header()
+{
+  echo ""
+  echo " _____     _         "
+  echo "|_   _|__ | | ____ _ "
+  echo "  | |/ _ \| |/ / _\` |"
+  echo "  | | (_) |   < (_| |"
+  echo "  |_|\___/|_|\_\__,_|"
+}
+
+
+##################################################################
+# Some systems (Linux, BeOS, Cygwin) need to be built against
+# libdl.so, which provides dlopen() and dlsym() (needed for the
+# FFI.) On others (BSD varients), this functionality is part of
+# libc. If in doubt, try 'a' for 'autodetect'.
+#
+# The autodetection is from Helmar's 4p :)
+##################################################################
+needs_libdl()
+{
+  echo "================================================================"
+  echo "Link against libdl.so? (y/n or 'a'utodetect)"
+
+  cont=1
+
+  while [ $cont = "1" ]; do
+
+    option=`input`;
+    case $option in
+      [Yy])
+        ffi="-ldl"
+        cont=0
+      ;;
+      [Nn])
+        ffi=""
+        cont=0
+      ;;
+      [Aa])
+        gcc misc/needdl.c -o a.out -ldl 2>/dev/null && ffi="-ldl" && rm a.out*
+        cont=0
+      ;;
+      *)
+        echo "Link against libdl.so? (y/n/a)"
+      ;;
+    esac
+  done
+}
+
+
+##################################################################
+# Ask the user to select the host OS type.
+##################################################################
+host()
+{
+  echo "================================================================"
+  echo "Please select the host operating system you are compiling Toka"
+  echo "for."
+  echo ""
+  echo "Stable                              Experimental"
+  echo "-----------------------------       ----------------------------"
+  echo "A)  Unix (Linux, BSD, Cygwin)       B) BeOS"
+  echo "                                    C) Windows"
+  echo ""
+  echo "Please choose one option:"
+
+  cont=1
+
+  while [ $cont = "1" ]; do
+
+    option=`input`;
+
+    case $option in
+      [Aa])
+          platform="unix"
+          cont=0
+        ;;
+      [Bb])
+          platform="beos"
+          cont=0
+        ;;
+      [Cc])
+          platform="windows"
+          cont=0
+        ;;
+      *)
+        echo "Please choose one option:"
+        ;;
+    esac
+  done
+}
+
+
+##################################################################
+# As the user to select optional components to build.
+##################################################################
+options() {
+  echo "================================================================"
+  echo "Do you wish to build the library? (y/n)"
+
+  cont=1
+
+  while [ $cont = "1" ]; do
+
+    option=`input`;
+
+    case $option in
+      [Yy])
+        enable_library="yes"
+        cont=0
+      ;;
+      [Nn])
+       enable_library="no"
+       cont=0
+      ;;
+      *)
+       echo "Do you wish to build the library? (y/n)"
+      ;;
+    esac
+  done
+}
+
+
+##################################################################
+# Get the optional libraries that the user wants (only if the
+# libraries are selected as a build option)
+##################################################################
+libraries()
+{
+  echo "================================================================"
+  echo "The library consists of both Toka and C code. Some of the"
+  echo "modules have external dependencies that may missing or"
+  echo "unsupported on your system. Enable the ones you want from the"
+  echo "list below."
+  echo ""
+  echo "Defaults are specified."
+  echo ""
+  echo "A) Sockets  [enabled]     E) Floating Point  [enabled]"
+  echo "B) CGI      [enabled]     F) Text Editor     [disabled]"
+  echo "C) Shell    [enabled]     G) SDL             [disabled]"
+  echo "D) Console  [disabled]"
+  echo ""
+
+  cont=1
+
+  while [ $cont = "1" ]; do
+
+    option=`input`;
+
+    case $option in
+     [Aa])
+       if [ "$lib_sockets" = "disabled" ]; then
+         lib_sockets="enabled"
+       else
+         lib_sockets="disabled"
+       fi
+       echo "Sockets: $lib_sockets"
+       ;;
+     [Bb])
+       if [ "$lib_cgi" = "disabled" ]; then
+         lib_cgi="enabled"
+       else
+         lib_cgi="disabled"
+       fi
+       echo "CGI: $lib_cgi"
+       ;;
+     [Cc])
+       if [ "$lib_shell" = "disabled" ]; then
+         lib_shell="enabled"
+       else
+         lib_shell="disabled"
+       fi
+       echo "Shell: $lib_shell"
+       ;;
+     [Dd])
+       if [ "$lib_console" = "disabled" ]; then
+         lib_console="enabled"
+       else
+         lib_console="disabled"
+       fi
+       echo "Console: $lib_console"
+       ;;
+     [Ee])
+       if [ "$lib_floats" = "disabled" ]; then
+         lib_floats="enabled"
+       else
+         lib_floats="disabled"
+       fi
+       echo "Floating Point: $lib_floats"
+       ;;
+     [Ff])
+       if [ "$lib_textedit" = "disabled" ]; then
+         lib_textedit="enabled"
+       else
+         lib_textedit="disabled"
+       fi
+       echo "Text Editor: $lib_textedit"
+       ;;
+     [Gg])
+       if [ "$lib_sdl" = "disabled" ]; then
+         lib_sdl="enabled"
+       else
+         lib_sdl="disabled"
+       fi
+       echo "SDL: $lib_sdl"
+       ;;
+      *)
+        cont=0
+        ;;
+    esac
+  done
+}
+
+
+##################################################################
+# Display a summary of the selected build options. 
+##################################################################
+summary()
+{
+  echo "================================================================"
+  echo "Makefiles generated for:"
+  echo " - Toka on a $platform host"
+  if [ "$enable_library" = "yes" ]; then
+    echo " - Library"
+    echo "   - Optional Libraries"
+    if [ "$lib_sockets" = "enabled" ]; then
+      echo "     - Sockets"
+    fi
+    if [ "$lib_cgi" = "enabled" ]; then
+      echo "     - CGI"
+    fi
+    if [ "$lib_shell" = "enabled" ]; then
+      echo "     - Shell"
+    fi
+    if [ "$lib_console" = "enabled" ]; then
+      echo "     - Console"
+    fi
+    if [ "$lib_floats" = "enabled" ]; then
+      echo "     - Floating Point"
+    fi
+    if [ "$lib_textedit" = "enabled" ]; then
+      echo "     - Text Editor"
+    fi
+    if [ "$lib_sdl" = "enabled" ]; then
+      echo "     - SDL"
+    fi
+  fi
+}
+
+
+##################################################################
+# Generate the Makefiles. This should only be called after all
+# autoconfiguration and user responses are processed.
+##################################################################
+generate()
+{
+  echo "================================================================"
+  echo "Creating Makefiles..."
+
+  ################################################################
+  # First, the top level Makefile. This declares is responsible
+  # for calling the secondary Makefiles and moving things to the
+  # proper places for the 'make install' target.
+  ################################################################
+  echo  >Makefile  "# ======================="
+  echo >>Makefile  "# You may want to override CFLAGS or add OTHER"
+  echo >>Makefile  "# flags when building."
+  echo >>Makefile  "# ======================="
+  echo >>Makefile  ""
+  echo >>Makefile  ".PHONY : library poharu toka"
+  echo >>Makefile  ""
+  echo >>Makefile  "default:"
+  echo >>Makefile  "	@echo Compiling Toka..."
+  echo >>Makefile  "	@cd toka && make"
+  echo >>Makefile  "	@mv toka/toka bin/"
+  echo >>Makefile  "	@cp toka/bootstrap.toka bin/"
+
+  if [ "$enable_library" = "yes" ]; then
+    echo >>Makefile  "	@echo Compiling Library..."
+    echo >>Makefile  "	@cd library/C && make"
+  fi
+
+  echo >>Makefile  "clean:"
+  echo >>Makefile  "	@rm -f \`find . | grep \~ \`"
+  echo >>Makefile  "	@rm -f source/*.o source/a.out"
+  echo >>Makefile  "	@rm -f bin/toka bin/poharu bin/bootstrap.toka"
+  if [ "$enable_library" = "yes" ]; then
+    echo >>Makefile "	@rm -f library/C/*.so"
+  fi
+
+  echo >>Makefile  "install:"
+  echo >>Makefile  "	@echo Installing Toka..."
+  if [ "$platform" = "unix" ]; then
+    echo >>Makefile  "	@mkdir -p /usr/share/toka"
+    echo >>Makefile  "	@cp bin/toka /usr/bin"
+    echo >>Makefile  "	@cp toka/bootstrap.toka /usr/share/toka"
+  fi
+  if [ "$platform" = "beos" ]; then
+    echo >>Makefile  "	@mkdir -p /boot/apps/TokaLanguage"
+    echo >>Makefile  "	@cp bin/toka /boot/apps/TokaLanguage"
+    echo >>Makefile  "	@cp toka/bootstrap.toka /boot/apps/TokaLanguage"
+    echo >>Makefile  "	@cd /boot/apps && rm -f toka"
+    echo >>Makefile  "	@cd /boot/apps && ln -s ./TokaLanguage/toka ."
+  fi
+
+  if [ "$enable_poharu" = "yes" ]; then
+    echo >>Makefile  "	@echo Installing Poharu..."
+    if [ "$platform" = "unix" ]; then
+      echo >>Makefile  "	@cp bin/poharu /usr/bin"
+    fi
+    if [ "$platform" = "beos" ]; then
+      echo >>Makefile  "	@cp bin/poharu /boot/apps/TokaLanguage"
+    fi
+  fi
+  if [ "$enable_library" = "yes" ]; then
+    echo >>Makefile  "	@echo Installing Library..."
+    if [ "$platform" = "unix" ]; then
+      echo >>Makefile  "	@mkdir -p /usr/share/toka/library"
+      echo >>Makefile  "	@mkdir -p /usr/share/toka/library/C"
+      echo >>Makefile  "	@cp library/Libraries/* /usr/share/toka/library"
+      echo >>Makefile  "	@cp library/C/*.so /usr/share/toka/library/C"
+    fi
+    if [ "$platform" = "beos" ]; then
+      echo >>Makefile  "	@mkdir -p /boot/apps/TokaLanguage/library"
+      echo >>Makefile  "	@mkdir -p /boot/apps/TokaLanguage/library/C"
+      echo >>Makefile  "	@cp library/Libraries/* /boot/apps/TokaLanguage/library"
+      echo >>Makefile  "	@cp library/C/*.so /boot/apps/TokaLanguage/library/C"
+    fi
+  fi
+
+
+  ################################################################
+  # On some platforms we need to change a few parts of the source.
+  # We do the required patching here.
+  ################################################################
+  if [ "$platform" = "windows" ]; then
+    echo "Applying patches for Windows..."
+    cd toka
+    patch <../misc/patches/win32.patch
+    cd ..
+  fi
+  if [ "$platform" = "beos" ]; then
+    echo "Applying patches for BeOS..."
+    cd toka
+    patch <../misc/patches/beos.patch
+    cd ..
+  fi
+
+
+  ################################################################
+  # Now, generate the Makefile for Toka. It's mostly cut and dry,
+  # but some systems do require additional compiler flags, so we
+  # generate these here.
+  ################################################################
+  echo  >toka/Makefile  "CFLAGS = -Wall -g"
+  echo >>toka/Makefile  "LDFLAGS = $ffi"
+  if [ "$platform" = "beos" ]; then
+    echo >>toka/Makefile  "OTHER = -I/boot/develop/headers"
+  fi
+  if [ "$platform" = "windows" ]; then
+    echo >>toka/Makefile  "OTHER = -mno-cygwin"
+  fi
+  echo >>toka/Makefile  "DEPS = bits.c class.c cmdline.c conditionals.c console.c data.c debug.c decompile.c dictionary.c errors.c ffi.c files.c gc.c initial.c interpret.c math.c parser.c quotes.c stack.c toka.c vm.c"
+  echo >>toka/Makefile  toka: $\(DEPS\)
+  echo >>toka/Makefile  "	" gcc $\(CFLAGS\) $\(LDFLAGS\) $\(OTHER\) $\(DEPS\) -o toka
+  echo >>toka/Makefile  ""
+  echo >>toka/Makefile  "clean:"
+  echo >>toka/Makefile  "	rm -f toka *~"
+
+
+  ################################################################
+  # And finally, the library. This is a little hairy, but works
+  # ok. It generates a custom Makefile in library/C which builds
+  # the selected hybrid modules.
+  ################################################################
+  if [ "$enable_library" = "yes" ]; then
+    cd library/C
+    echo  >Makefile  "CFLAGS = -O2 -shared -fPIC -g -Wall"
+    echo >>Makefile  "CC = gcc"
+    echo >>Makefile  ""
+    echo >>Makefile  "default:"
+
+    if [ "$lib_sockets" = "enabled" ]; then
+      echo >>Makefile  "	" $\(CC\) $\(CFLAGS\) sockets.c -o sockets.so
+    fi
+    if [ "$lib_cgi" = "enabled" ]; then
+      echo >>Makefile  "	" cd cgi \&\& $\(CC\) $\(CFLAGS\) cgi.c cookies.c -o ../cgi.so
+    fi
+    if [ "$lib_shell" = "enabled" ]; then
+      echo >>Makefile  "	" $\(CC\) $\(CFLAGS\) shell.c -o shell.so
+    fi
+    if [ "$lib_console" = "enabled" ]; then
+      echo >>Makefile  "	" $\(CC\) $\(CFLAGS\) console.c -o console.so
+    fi
+    if [ "$lib_floats" = "enabled" ]; then
+      echo >>Makefile  "	" $\(CC\) $\(CFLAGS\) floats.c -o floats.so
+    fi
+    if [ "$lib_textedit" = "enabled" ]; then
+      echo >>Makefile  "	" cd texteditor \&\& $\(CC\) $\(CFLAGS\) textedit.c -o ../textedit.so
+    fi
+    if [ "$lib_sdl" = "enabled" ]; then
+      echo >>Makefile  "	" $\(CC\) $\(CFLAGS\) sdl.c -lSDL -lm -o sdl.so
+    fi
+    cd ../..
+    ls
+  fi
+}
+
+
+
+##################################################################
+# And finally, call each of the functions in sequence.
+##################################################################
+header                                      # Display the header
+cleanup                                     # Remove old Makefiles
+needs_libdl                                 # Do we need to link 
+                                            # against libdl.so?
+host                                        # Get the host OS
+options                                     # Get optional parts
+if [ "$enable_library" = "yes" ]; then      #
+  libraries                                 # Select libraries
+fi                                          #
+generate                                    # Create the Makefiles
+summary                                     # Display a summary

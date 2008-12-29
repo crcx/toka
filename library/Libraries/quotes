@@ -1,0 +1,60 @@
+#! ---------------------------------------------------------------------
+#! MODULE: quotes
+#!
+#! Provides:
+#!   Data:
+#!   Words:
+#!            apply
+#!            ( ab-... )
+#!            Evaluate quote 'a' and apply quote 'b' to each item
+#!            left on the stack by 'a'. '...' is the result.
+#!
+#!            fix?
+#!            ( ...-... )
+#!            Use this with apply to keep the stack balanced as
+#!            necessary.
+#!
+#!            [[
+#!            ( - )
+#!            Turn the compiler off, but does not close the
+#!            current quote.
+#!
+#!            ]]
+#!            ( - )
+#!            Turn the compiler back on; does not start a new
+#!            quote.
+#!
+#!            within
+#!            ( abc-f )
+#!            Check to see if 'c' is between 'a' and 'b' in size
+#!
+#!            range
+#!            ( ab-... )
+#!            Generate a sequence of numbers starting with 'a' and
+#!            ending with 'b'
+#!
+#! ---------------------------------------------------------------------
+
+
+[ 2dup > >r nip < r> = ] is within
+
+[ swap 1 - swap 1 +
+  dup 1 swap [ 2dup i within [ >r >r i r> r> ] ifTrue ] countedLoop
+  2drop
+] is range
+
+#! ---------------------------------------------------------------------
+#! Example:
+#!    1 7 range [ fix? + ] apply .
+#! ---------------------------------------------------------------------
+{
+  value q
+  [ to q q invoke depth 0 
+    [ q invoke ] countedLoop 
+  ]
+} is apply
+
+[ depth 1 = [ 0 ] ifTrue ] is fix?
+#! ---------------------------------------------------------------------
+[ compiler off ] is-macro [[
+[ compiler on ] is ]]

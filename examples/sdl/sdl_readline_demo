@@ -1,0 +1,26 @@
+#! /usr/bin/toka
+
+needs sdl
+needs readline
+needs case
+
+sdl_event_size malloc is-data event
+
+[
+  200 200 sdl_setup drop
+
+100 100 13 30 rgb: ffffff aline
+100 100 90 30 rgb: ffffff aline
+100 100 180 30 rgb: ffffff aline
+
+  [  
+    event SDL_WaitEvent drop
+    event sdl_event_type switch
+    TRUE
+    SDL_QUIT [ SDL_Quit FALSE bye ] case
+    SDL_KEYDOWN [ " Say what? " readline-with-prompt ." you typed: " type cr ] case
+    SDL_MOUSEMOTION [ event get-mouse-coords ." Mouse at x=" . ."  y=" . cr ] case
+  ] whileTrue
+] is demo
+
+demo

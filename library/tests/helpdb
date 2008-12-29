@@ -1,0 +1,11 @@
+i: HelpDB
+needs helpdb
+
+[ string.compare [ ." \nFailed\n" cr bye ] ifFalse ] is $try
+
+t:  document:
+  " Hello" document: foo
+  " World" document: bar
+t:  :getHelp
+  " foo" :getHelp " Hello" $try
+  " bar" :getHelp " World" $try

@@ -1,0 +1,75 @@
+#! /usr/bin/toka
+
+." SDL Drawing Demonstration
+------------------------------
+1   = BLACK     Use the arrow
+2   = RED       keys to move
+3   = GREEN     and draw.
+4   = BLUE      
+5   = WHITE     ESC   = Quit
+------------------------------\n"
+
+needs sdl
+needs case
+
+
+value| x y color max-x max-y |
+
+100 to max-x
+100 to max-y
+0 to x
+0 to y
+rgb: ffffff to color
+
+[ x 1 < [ 1 to x ] ifTrue
+  y 1 < [ 1 to y ] ifTrue
+  x max-x > [ max-x to x ] ifTrue
+  y max-y 1 - > [ max-y 1 - to y ] ifTrue
+] is check-bounds
+
+100 100 sdl_setup drop
+
+sdl_event_size malloc is-data event
+
+rgb: 000000 is-data BLACK
+rgb: ff0000 is-data RED
+rgb: 00ff00 is-data GREEN
+rgb: 0000ff is-data BLUE
+rgb: ffffff is-data WHITE
+
+[
+  switch
+  char: 1 [ BLACK to color ] case
+  char: 2 [ RED to color ] case
+  char: 3 [ GREEN to color ] case
+  char: 4 [ BLUE to color ] case
+  char: 5 [ WHITE to color ] case
+  K_UP    [ y 1 - to y ] case
+  K_DOWN  [ y 1 + to y ] case
+  K_LEFT  [ x 1 - to x ] case
+  K_RIGHT [ x 1 + to x ] case
+  K_ESC   [ bye ] case
+] is process
+
+[ x y color putpixel ] is draw
+
+[
+  [ sdl_render reset TRUE
+    event SDL_WaitEvent drop
+    event sdl_event_type switch
+      SDL_QUIT [ bye ] case
+      SDL_MOUSEBUTTONUP [ FALSE ] case
+      SDL_MOUSEMOTION [ event get-mouse-coords to y to x draw ] case
+  ] whileTrue
+] is mouse-draw
+
+[ reset sdl_render drop
+  event SDL_WaitEvent drop
+  event sdl_event_type 
+
+  switch
+  SDL_QUIT [ bye ] case
+  SDL_KEYDOWN [ event get-keysym process draw ] case
+  SDL_MOUSEBUTTONDOWN [ mouse-draw ] case
+  TRUE
+] keep whileTrue

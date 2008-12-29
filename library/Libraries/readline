@@ -1,0 +1,3 @@
+from libreadline.so
+1 import readline as readline-with-prompt
+[ 0 readline-with-prompt ] is readline

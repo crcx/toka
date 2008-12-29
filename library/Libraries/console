@@ -1,0 +1,68 @@
+from /usr/share/toka/library/C/console.so
+0 import console_init
+0 import console_cleanup
+0 import getkey
+0 import getchar
+
+{
+  0 import console_size_x
+  0 import console_size_y
+  [ console_size_x console_size_y ]
+} is console_dimensions
+
+{
+  3 import printf
+  [ " \^[%li;%liH" -rot swap printf drop ]
+} is xy
+[ 1 1 xy ] is home
+
+[ 256 + ] is ALT+
+[ 31 and ] is CTL+
+
+ 27 is-data K_ESC
+127 is-data K_BS
+140 is-data K_UP
+141 is-data K_DOWN
+142 is-data K_RIGHT
+143 is-data K_LEFT
+144 is-data K_HOME
+145 is-data K_INS
+146 is-data K_DEL
+147 is-data K_END
+148 is-data K_PGUP
+149 is-data K_PGDN
+128 is-data K_F1
+129 is-data K_F2
+130 is-data K_F3
+131 is-data K_F4
+132 is-data K_F5
+133 is-data K_F6
+134 is-data K_F7
+135 is-data K_F8
+136 is-data K_F9
+137 is-data K_F10
+138 is-data K_F11
+139 is-data K_F12
+
+#! ---------------------------------------
+#! Colors
+#! ---------------------------------------
+[ ." \^[0m"  ] is normal
+[ ." \^[1m"  ] is bold
+[ ." \^[30m" ] is black
+[ ." \^[31m" ] is red
+[ ." \^[32m" ] is green
+[ ." \^[33m" ] is yellow
+[ ." \^[34m" ] is blue
+[ ." \^[35m" ] is magenta
+[ ." \^[36m" ] is cyan
+[ ." \^[37m" ] is white
+[ ." \^[40m" ] is onBlack
+[ ." \^[41m" ] is onRed
+[ ." \^[42m" ] is onGreen
+[ ." \^[43m" ] is onYellow
+[ ." \^[44m" ] is onBlue
+[ ." \^[45m" ] is onMagenta
+[ ." \^[46m" ] is onCyan
+[ ." \^[47m" ] is onWhite
+

@@ -1,0 +1,57 @@
+i: Console
+
+needs console
+t: Foreground:
+red
+t: red
+green
+t: green 
+yellow
+t: yellow
+blue
+t: blue
+magenta
+t: magenta
+cyan
+t: cyan
+white
+t: white
+
+normal cr
+t: Bold:
+bold
+red
+t: red
+green
+t: green 
+yellow
+t: yellow
+blue
+t: blue
+magenta
+t: magenta
+cyan
+t: cyan
+white
+t: white
+
+normal cr
+t: Background:
+white onBlack
+t: onBlack
+white onRed
+t: onRed
+onGreen
+t: onGreen
+onYellow
+t: onYellow
+onBlue
+t: onBlue
+onMagenta
+t: onMagenta
+onCyan
+t: onCyan
+black onWhite
+t: onWhite
+normal
+

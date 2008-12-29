@@ -1,0 +1,12 @@
+{
+  2 import strtok
+  [ swap string.clone swap strtok ]
+} is string.findToken
+{
+  2 import strstr
+  [ swap string.clone swap strstr ]
+} is string.findSubstring
+{
+  2 import strchr
+  [ swap string.clone swap strchr ]
+} is string.findChar

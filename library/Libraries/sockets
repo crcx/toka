@@ -1,0 +1,40 @@
+#! ---------------------------------------------------------------------
+#! MODULE: sockets
+#!
+#! Requires:
+#!    sockets.so
+#!
+#! Provides:
+#!    pBind
+#!    ( n-x )
+#!    Bind to a specific port
+#!
+#!    pConnect
+#!    ( $n-s )
+#!    Connect to host (string '$') at port 'n'. Returns a socket.
+#!
+#!    pAccept
+#!    ( n-x )
+#!
+#!    pRead
+#!    ( sbl-n )
+#!    Attempt to read 'l' chars from socket 's' into buffer 'b'. Returns
+#!    the number of bytes read.
+#!
+#!    pWrite
+#!    ( sbl-n )
+#!    Attempt to write 'l' bytes from buffer 'b' to socket 's'. Returns
+#!    the number of bytes written.
+#!
+#!    pClose
+#!    ( s-x )
+#!    Attempt to close socket 's'.
+#! ---------------------------------------------------------------------
+from /usr/share/toka/library/C/sockets.so
+
+1 import pBind     #! int pBind(int port)
+2 import pConnect  #! int pConnect(const char *host, int port)
+1 import pAccept   #! int pAccept(int sockfd)
+3 import pRead     #! int pRead(int sockfd, void *buffer, int length)
+3 import pWrite    #! int pWrite(int sockfd, const char *data, int length)
+1 import pClose    #! int pClose(int sockfd)

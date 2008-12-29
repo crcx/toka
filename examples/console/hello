@@ -1,0 +1,3 @@
+#! /usr/bin/toka
+." hello, world!\n"
+bye

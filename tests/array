@@ -1,0 +1,20 @@
+i: Arrays
+t:  is-array
+  10 cells is-array foo
+  10 chars is-array bar
+t:  array.put
+  10 0 foo array.put
+  12 1 foo array.put
+  18 9 foo array.put
+t:  array.get
+  0 foo array.get 10 try
+  1 foo array.get 12 try
+  9 foo array.get 18 try
+t:  array.putChar
+  char: A 0 bar array.putChar
+  char: B 1 bar array.putChar
+  char: C 9 bar array.putChar
+t:  array.getChar
+  0 bar array.getChar char: A try
+  1 bar array.getChar char: B try
+  9 bar array.getChar char: C try

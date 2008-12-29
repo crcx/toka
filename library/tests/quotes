@@ -1,0 +1,10 @@
+i: Quotes
+needs quotes
+t:  range
+  1 5 range
+  5 try 4 try 3 try 2 try 1 try
+t:  within
+  1 5 3 within TRUE try
+  1 5 19 within FALSE try
+t:  apply/fix?
+  1 5 range [ fix? + ] apply 15 try

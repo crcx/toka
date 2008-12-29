@@ -1,0 +1,15 @@
+#! A simple Bubble Sort function
+{
+  value| array count changed |
+  [ ( address count -- )
+    to count to array
+    count 0
+    [ count 0
+      [ i array array.get i 1 + array array.get 2dup >
+        [ i array array.put  i 1 + array array.put ]
+        [ 2drop ] ifTrueFalse
+      ] countedLoop
+      count 1 - to count
+    ] countedLoop
+  ]
+} is bubblesort

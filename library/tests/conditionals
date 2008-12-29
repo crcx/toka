@@ -1,0 +1,18 @@
+i: Conditionals
+needs conditionals
+t:  >=
+  1 2 >= FALSE try
+  2 2 >= TRUE try
+  3 2 >= TRUE try
+t:  <=
+  2 1 <= FALSE try
+  1 1 <= TRUE try
+  -1 1 <= TRUE try
+t:  >!=
+  1 2 >!= TRUE try
+  2 2 >!= FALSE try
+  3 2 >!= TRUE try
+t:  <!=
+  1 2 <!= TRUE try
+  2 2 <!= FALSE try
+  3 2 <!= TRUE try

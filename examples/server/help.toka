@@ -1,0 +1,961 @@
+(
+" <div class='name'></div>
+  <div class='stack'></div>
+  <div class='description'></div>
+  <div class='example'><h4>Example:</h4></div>
+" document:
+)
+
+#! ================================================================= PRIMITIVES
+" <div class='name'>&lt;&lt;</div>
+  <div class='stack'>ab-c</div>
+  <div class='description'>Shift 'a' left by 'b' bits</div>
+" document: %3C%3C
+
+" <div class='name'>&gt;&gt;</div>
+  <div class='stack'>ab-c</div>
+  <div class='description'>Shift 'a' right by 'b' bits</div>
+" document: %3E%3E
+
+" <div class='name'>and</div>
+  <div class='stack'>ab-c</div>
+  <div class='description'>Perform a bitwise AND</div>
+" document: and
+
+" <div class='name'>or</div>
+  <div class='stack'>ab-c</div>
+  <div class='description'>Perform a bitwise OR</div>
+" document: or
+
+" <div class='name'>xor</div>
+  <div class='stack'>ab-c</div>
+  <div class='description'>Perform a bitwise XOR</div>
+" document: xor
+
+" <div class='name'>#args</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the number of arguments</div>
+" document: %23args
+
+" <div class='name'>arglist</div>
+  <div class='stack'>-a</div>
+  <div class='description'>Return a pointer to the argument list</div>
+" document: arglist
+
+" <div class='name'>&lt;</div>
+  <div class='stack'>ab-f</div>
+  <div class='description'>Compare 'a' and 'b', return a flag</div>
+" document: %3C
+
+" <div class='name'>&gt;</div>
+  <div class='stack'>ab-f</div>
+  <div class='description'>Compare 'a' and 'b', return a flag</div>
+" document: %3E
+
+" <div class='name'>=</div>
+  <div class='stack'>ab-f</div>
+  <div class='description'>Compare 'a' and 'b', return a flag</div>
+" document: %3D
+
+" <div class='name'>&lt;&gt;</div>
+  <div class='stack'>ab-f</div>
+  <div class='description'>Compare 'a' and 'b', return a flag</div>
+" document: %3C%3E
+
+" <div class='name'>.</div>
+  <div class='stack'>n-</div>
+  <div class='description'>Display the numeric value on the top of the stack</div>
+" document: .
+
+" <div class='name'>emit</div>
+  <div class='stack'>c-</div>
+  <div class='description'>Display the ASCII character on the top of the stack</div>
+" document: emit
+
+" <div class='name'>type</div>
+  <div class='stack'>$-</div>
+  <div class='description'>Display a string</div>
+" document: type
+
+" <div class='name'>bye</div>
+  <div class='stack'>-</div>
+  <div class='description'>Exit Toka</div>
+" document: bye
+
+" <div class='name'>#</div>
+  <div class='stack'>n-</div>
+  <div class='description'>Push the following cell to the stack</div>
+" document: %23
+
+" <div class='name'>$#</div>
+  <div class='stack'>n-</div>
+  <div class='description'>Push the following cell to the stack</div>
+" document: %24%23
+
+" <div class='name'>@</div>
+  <div class='stack'>a-n</div>
+  <div class='description'>Fetch the value in memory location a</div>
+" document: %40
+
+" <div class='name'>!</div>
+  <div class='stack'>na-</div>
+  <div class='description'>Store a value to memory location a</div>
+" document: %21
+
+" <div class='name'>c@</div>
+  <div class='stack'>a-c</div>
+  <div class='description'>Fetch the character value in memory location a</div>
+" document: c%40
+
+" <div class='name'>c!</div>
+  <div class='stack'>ca-</div>
+  <div class='description'>Store a character value in memory location a</div>
+" document: c%21
+
+" <div class='name'>copy</div>
+  <div class='stack'>sdc-</div>
+  <div class='description'>Copy 'c' bytes from 's' to 'd'</div>
+" document: copy
+
+" <div class='name'>cell-size</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the size of a cell (in bytes)</div>
+" document: cell-size
+
+" <div class='name'>char-size</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the size of a character (in bytes)</div>
+" document: char-size
+
+" <div class='name'>:stack</div>
+  <div class='stack'>-</div>
+  <div class='description'>Display all values on the stack</div>
+" document: %3Astack
+
+" <div class='name'>:stat</div>
+  <div class='stack'>-</div>
+  <div class='description'>Display information about the Toka VM</div>
+" document: %3Astat
+
+" <div class='name'>:see</div>
+  <div class='stack'>$-</div>
+  <div class='description'>Decompile a word</div>
+" document: %3Asee
+
+" <div class='name'>last</div>
+  <div class='stack'>-a</div>
+  <div class='description'>Variable holding the number of the most recent dictionary entry</div>
+" document: last
+
+" <div class='name'>is</div>
+  <div class='stack'>$ &quot;-</div>
+  <div class='description'>Attach a name to a quote</div>
+" document: is
+
+" <div class='name'>is-macro</div>
+  <div class='stack'>$ &quot;-</div>
+  <div class='description'>Attach a name to a quote</div>
+" document: is-macro
+
+" <div class='name'>is-data</div>
+  <div class='stack'>$ &quot;-</div>
+  <div class='description'>Attach a name to a data element</div>
+" document: is-data
+
+" <div class='name'>`</div>
+  <div class='stack'>&quot;-a</div>
+  <div class='description'>Return a quote corresponding to the specified word.</div>
+" document: %60
+
+" <div class='name'>:name</div>
+  <div class='stack'>n-$</div>
+  <div class='description'>Return the name for a dictionary entry</div>
+" document: %3Aname
+
+" <div class='name'>:xt</div>
+  <div class='stack'>n-$</div>
+  <div class='description'>Return the address for a dictionary entry</div>
+" document: %3Axt
+
+" <div class='name'>:class</div>
+  <div class='stack'>n-$</div>
+  <div class='description'>Return the class number for a dictionary entry</div>
+" document: %3Aclass
+
+" <div class='name'>from</div>
+  <div class='stack'>&quot;-</div>
+  <div class='description'>Select a library to import from</div>
+" document: from
+
+" <div class='name'>import</div>
+  <div class='stack'>n &quot;-</div>
+  <div class='description'>Import a function taking 'n' arguments</div>
+" document: import
+
+" <div class='name'>as</div>
+  <div class='stack'>&quot;-</div>
+  <div class='description'>Rename the last defined word</div>
+" document: as
+
+" <div class='name'>file.open</div>
+  <div class='stack'>$m-n</div>
+  <div class='description'>Open a specified file with the specified mode</div>
+" document: file.open
+
+" <div class='name'>file.close</div>
+  <div class='stack'>n-</div>
+  <div class='description'>Close an open file</div>
+" document: file.close
+
+" <div class='name'>file.read</div>
+  <div class='stack'>nbl-r</div>
+  <div class='description'>Read 'l' bytes from file 'n' into buffer 'b'</div>
+" document: file.read
+
+" <div class='name'>file.write</div>
+  <div class='stack'>nbl-w</div>
+  <div class='description'>Write 'l' bytes from buffer 'b' into file 'n'</div>
+" document: file.write
+
+" <div class='name'>file.size</div>
+  <div class='stack'>n-s</div>
+  <div class='description'>Return the size (in bytes) of a file</div>
+" document: file.size
+
+" <div class='name'>file.seek</div>
+  <div class='stack'>nom-a</div>
+  <div class='description'>Seek a new position in a file. Valid modes are START, CURRENT, and END.</div>
+" document: file.seek
+
+" <div class='name'>file.pos</div>
+  <div class='stack'>n-a</div>
+  <div class='description'>Return the current position in a file</div>
+" document: file.pos
+
+" <div class='name'>keep</div>
+  <div class='stack'>a-a</div>
+  <div class='description'>Mark allocated memory as permanent</div>
+" document: keep
+
+" <div class='name'>gc</div>
+  <div class='stack'>-</div>
+  <div class='description'>Collect the temporary and old memory items</div>
+" document: gc
+
+" <div class='name'>malloc</div>
+  <div class='stack'>n-a</div>
+  <div class='description'>Allocate memory.</div>
+" document: malloc
+
+" <div class='name'>heap</div>
+  <div class='stack'>-a</div>
+  <div class='description'>Variable pointing to the top of the local heap</div>
+" document: heap
+
+" <div class='name'>compiler</div>
+  <div class='stack'>-a</div>
+  <div class='description'>Variable holding compiler state</div>
+" document: compiler
+
+" <div class='name'>+</div>
+  <div class='stack'>ab-c</div>
+  <div class='description'>Add TOS and NOS</div>
+" document: %2B
+
+" <div class='name'>-</div>
+  <div class='stack'>ab-c</div>
+  <div class='description'>Subtract TOS from NOS</div>
+" document: -
+
+" <div class='name'>*</div>
+  <div class='stack'>ab-c</div>
+  <div class='description'>Multiply TOS by NOS</div>
+" document: %2A
+
+" <div class='name'>/mod</div>
+  <div class='stack'>ab-cd</div>
+  <div class='description'>Divide and get remainder</div>
+" document: %2Fmod
+
+" <div class='name'>base</div>
+  <div class='stack'>-a</div>
+  <div class='description'>Variable holding current base for numeric conversion/display</div>
+" document: base
+
+" <div class='name'>parser</div>
+  <div class='stack'>-a</div>
+  <div class='description'>Enable/disable parsing mode on primitives</div>
+" document: parser
+
+" <div class='name'>escape-sequences</div>
+  <div class='stack'>-a</div>
+  <div class='description'>Enable/disable escape sequences</div>
+" document: escape-sequences
+
+" <div class='name'>&gt;number</div>
+  <div class='stack'>$-nf</div>
+  <div class='description'>Convert a string to a number</div>
+" document: %3Enumber
+
+" <div class='name'>parse</div>
+  <div class='stack'>c-$</div>
+  <div class='description'>Parse ahead until character value 'c' is found. Return the string.</div>
+" document: parse
+
+" <div class='name'>include</div>
+  <div class='stack'>&quot;-</div>
+  <div class='description'>Add a file to the input stack</div>
+" document: include
+
+" <div class='name'>needs</div>
+  <div class='stack'>&quot;-</div>
+  <div class='description'>Add a library file to the input stack</div>
+" document: needs
+
+" <div class='name'>end.</div>
+  <div class='stack'>-</div>
+  <div class='description'>Remove the current file from the input stack</div>
+" document: end.
+
+" <div class='name'>[</div>
+  <div class='stack'>-a</div>
+  <div class='description'>Start a quote</div>
+" document: %5B
+
+" <div class='name'>]</div>
+  <div class='stack'>a-a</div>
+  <div class='description'>End a quote</div>
+" document: %5D
+
+" <div class='name'>invoke</div>
+  <div class='stack'>a-</div>
+  <div class='description'>Execute a quote</div>
+" document: invoke
+
+" <div class='name'>compile</div>
+  <div class='stack'>a-</div>
+  <div class='description'>Compile a call to a quote</div>
+" document: compile
+
+" <div class='name'>countedLoop</div>
+  <div class='stack'>ulq-</div>
+  <div class='description'>Invoke a quote ('q') a set number of times. Pass
+                           upper ('u') and lower ('l') limits; the counter
+                           will be updated up or down as needed.</div>
+  <div class='example'><h4>Example:</h4>10 5 [ i . ] countedLoop cr</div>
+" document: countedLoop
+
+" <div class='name'>ifTrueFalse</div>
+  <div class='stack'>fab-</div>
+  <div class='description'>Invoke 'a' if 'f' flag is true, 'b' if false.</div>
+" document: ifTrueFalse
+
+" <div class='name'>recurse</div>
+  <div class='stack'>-</div>
+  <div class='description'>Compile a call to the top quote</div>
+" document: recurse
+
+" <div class='name'>i</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the current loop index</div>
+" document: i
+
+" <div class='name'>whileTrue</div>
+  <div class='stack'>a-</div>
+  <div class='description'>Execute quote. If the quote
+                     returns TRUE, execute again.
+                     otherwise end the cycle.</div>
+" document: whileTrue
+
+" <div class='name'>whileFalse</div>
+  <div class='stack'>a-</div>
+  <div class='description'>Execute quote. If the quote
+                     returns FALSE, execute again.
+                     otherwise end the cycle.</div>
+" document: whileFalse
+
+" <div class='name'>dup</div>
+  <div class='stack'>n-nn</div>
+  <div class='description'>Duplicate TOS</div>
+" document: dup
+
+" <div class='name'>drop</div>
+  <div class='stack'>xy-x</div>
+  <div class='description'>Drop TOS</div>
+" document: drop
+
+" <div class='name'>swap</div>
+  <div class='stack'>xy-yx</div>
+  <div class='description'>Exchange TOS and NOS</div>
+" document: swap
+
+" <div class='name'>&gt;r</div>
+  <div class='stack'>n- | rs: -n</div>
+  <div class='description'>Push TOS to the return stack</div>
+" document: %3Er
+
+" <div class='name'>r&gt;</div>
+  <div class='stack'>-n | rs: n-</div>
+  <div class='description'>Pop TOS from the return stack</div>
+" document: r%3E
+
+" <div class='name'>depth</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the current depth of the stack</div>
+" document: depth
+
+#! ================================================================= BOOTSTRAP
+" <div class='name'>#!</div>
+  <div class='stack'>&quot;-</div>
+  <div class='description'>Ignore the rest of the line</div>
+
+  <div class='example'><h4>Example:</h4>#! This is a comment</div>
+" document: %23%21
+
+[ 41 parse drop ] is-macro (
+" <div class='name'>(</div>
+  <div class='stack'>&quot-</div>
+  <div class='description'>Ignore everything up to the next )</div>
+
+  <div class='example'><h4>Example:</h4>( This is a comment )</div>
+" document: %28
+
+" <div class='name'>.PRIM_WORD</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the class number for primitive words</div>
+" document: .PRIM_WORD
+
+" <div class='name'>.PRIM_MACRO</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the class number for primitive macros</div>
+" document: .PRIM_MACRO
+
+" <div class='name'>.DATA</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the class number for data elements</div>
+" document: .DATA
+
+" <div class='name'>.WORD</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the class number for high-level words</div>
+" document: .WORD
+
+" <div class='name'>.MACRO</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the class number for high-level macros</div>
+" document: .MACRO
+
+" <div class='name'>SPACE</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the ASCII value for a SPACE character</div>
+" document: SPACE
+
+" <div class='name'>CR</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the ASCII value for a CR character</div>
+" document: CR
+
+" <div class='name'>LF</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the ASCII value for a LF character</div>
+" document: LF
+
+" <div class='name'>ESC</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Return the ASCII value for an ESC character</div>
+" document: ESC
+
+" <div class='name'>TAB</div>
+  <div class='stack'></div>
+  <div class='description'>Return the ASCII value for a TAB character</div>
+" document: TAB
+
+" <div class='name'>wsparse</div>
+  <div class='stack'>-$</div>
+  <div class='description'>Parse until whitespace is encountered, return a string</div>
+" document: wsparse
+
+[ CR parse ] is lnparse
+" <div class='name'>lnparse</div>
+  <div class='stack'>-$</div>
+  <div class='description'>Parse until the end of the line. Return a string.</div>
+" document: lnparse
+
+" <div class='name'>FALSE</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Value for FALSE flag</div>
+" document: FALSE
+
+" <div class='name'>TRUE</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Value for TRUE flag</div>
+" document: TRUE
+
+" <div class='name'>ifTrue</div>
+  <div class='stack'>fq-</div>
+  <div class='description'>Execute quote 'q' if flag 'f' is TRUE.</div>
+" document: ifTrue
+
+" <div class='name'>ifFalse</div>
+  <div class='stack'>fq-</div>
+  <div class='description'>Execute quote 'q' if flag 'f' is FALSE.</div>
+" document: ifFalse
+
+" <div class='name'>&gt;char</div>
+  <div class='stack'>n-c</div>
+  <div class='description'>Convert a cell to a character value</div>
+" document: %3Echar
+
+" <div class='name'>char:</div>
+  <div class='stack'>&quot-c</div>
+  <div class='description'>Parse ahead for an ASCII character</div>
+" document: char%3A
+
+" <div class='name'>&quot;</div>
+  <div class='stack'>&quot;-$</div>
+  <div class='description'>Parse until the next &quot;, return a string</div>
+" document: %22
+
+" <div class='name'>cr</div>
+  <div class='stack'>-</div>
+  <div class='description'>Display an ASCII CR</div>
+" document: cr
+
+" <div class='name'>space</div>
+  <div class='stack'>-</div>
+  <div class='description'>Display an ASCII SPACE</div>
+" document: space
+
+" <div class='name'>tab</div>
+  <div class='stack'>-</div>
+  <div class='description'>Display an ASCII TAB</div>
+" document: tab
+
+" <div class='name'>.&quot;</div>
+  <div class='stack'>-</div>
+  <div class='description'>Parse until &quot; and display the resulting string</div>
+" document: .%22
+
+" <div class='name'>clear</div>
+  <div class='stack'>-</div>
+  <div class='description'>Clear the screen</div>
+" document: clear
+
+" <div class='name'>normal</div>
+  <div class='stack'>-</div>
+  <div class='description'>Reset the colors to the default</div>
+" document: normal
+
+" <div class='name'>bold</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set foreground color to bold</div>
+" document: bold
+
+" <div class='name'>black</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the foreground color to black</div>
+" document: black
+
+" <div class='name'>red</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the foreground color to red</div>
+" document: red
+
+" <div class='name'>green</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the foreground color to green</div>
+" document: green
+
+" <div class='name'>yellow</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the foreground color to yellow</div>
+" document: yellow
+
+" <div class='name'>blue</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the foreground color to blue</div>
+" document: blue
+
+" <div class='name'>magenta</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the foreground color to magenta</div>
+" document: magenta
+
+" <div class='name'>cyan</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the foreground color to cyan</div>
+" document: cyan
+
+" <div class='name'>white</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the foreground color to white</div>
+" document: white
+
+" <div class='name'>onBlack</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the background color to black</div>
+" document: onBlack
+
+" <div class='name'>onRed</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the background color to red</div>
+" document: onRed
+
+" <div class='name'>onGreen</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the background color to green</div>
+" document: onGreen
+
+" <div class='name'>onYellow</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the background color to yellow</div>
+" document: onYellow
+
+" <div class='name'>onBlue</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the background color to blue</div>
+" document: onBlue
+
+" <div class='name'>onMagenta</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the background color to magenta</div>
+" document: onMagenta
+
+" <div class='name'>onCyan</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the background color to cyan</div>
+" document: onCyan
+
+" <div class='name'>onWhite</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the background color to white</div>
+" document: onWhite
+
+" <div class='name'>nip</div>
+  <div class='stack'>xy-y</div>
+  <div class='description'>Drop NOS</div>
+" document: nip
+
+" <div class='name'>rot</div>
+  <div class='stack'>abc-bca</div>
+  <div class='description'>Rotate the values on the stack</div>
+" document: rot
+
+" <div class='name'>-rot</div>
+  <div class='stack'>abc-acb</div>
+  <div class='description'>Same as doing rot twice.</div>
+" document: -rot
+
+" <div class='name'>over</div>
+  <div class='stack'>xy-xyx</div>
+  <div class='description'>Put a copy of NOS on top of the stack</div>
+" document: over
+
+" <div class='name'>tuck</div>
+  <div class='stack'>xy-yxy</div>
+  <div class='description'>Put a copy of TOS under NOS</div>
+" document: tuck
+
+" <div class='name'>2dup</div>
+  <div class='stack'>xy-xyxy</div>
+  <div class='description'>Duplicate the top two items on the stack</div>
+" document: 2dup
+
+" <div class='name'>2drop</div>
+  <div class='stack'>xy-</div>
+  <div class='description'>Drop the top two items on the stack</div>
+" document: 2drop
+
+" <div class='name'>reset</div>
+  <div class='stack'>...-</div>
+  <div class='description'>Drop all items on the stack</div>
+" document: reset
+
+" <div class='name'>r@</div>
+  <div class='stack'>-n | rs: n-n</div>
+  <div class='description'>Get a copy of the top value on the return stack</div>
+" document: r%40
+
+" <div class='name'>negate</div>
+  <div class='stack'>x-y</div>
+  <div class='description'>Invert the sign of a number</div>
+" document: negate
+
+" <div class='name'>/</div>
+  <div class='stack'>ab-c</div>
+  <div class='description'>Divide a by b</div>
+" document: %2F
+
+" <div class='name'>mod</div>
+  <div class='stack'>ab-c</div>
+  <div class='description'>Divide a by b and get the remainder</div>
+" document: mod
+
+" <div class='name'>not</div>
+  <div class='stack'>x-y</div>
+  <div class='description'>Invert the value 'x'</div>
+" document: not
+
+" <div class='name'>*/</div>
+  <div class='stack'>abc-d</div>
+  <div class='description'>(a*b)/c</div>
+" document: %2A%2F
+
+" <div class='name'>chars</div>
+  <div class='stack'>x-y</div>
+  <div class='description'>Return a size in chars</div>
+" document: chars
+
+" <div class='name'>char+</div>
+  <div class='stack'>x-y</div>
+  <div class='description'>Advance x by one char-size</div>
+" document: char%2B
+
+" <div class='name'>char-</div>
+  <div class='stack'>x-y</div>
+  <div class='description'>Decrease x by one char-size</div>
+" document: char-
+
+" <div class='name'>cells</div>
+  <div class='stack'>x-y</div>
+  <div class='description'>Return a size in cells</div>
+" document: cells
+
+" <div class='name'>cell+</div>
+  <div class='stack'>x-y</div>
+  <div class='description'>Advance x by one cell-size</div>
+" document: cell%2B
+
+" <div class='name'>cell-</div>
+  <div class='stack'>x-y</div>
+  <div class='description'>Decrease x by one cell-size</div>
+" document: cell-
+
+" <div class='name'>+!</div>
+  <div class='stack'>na-</div>
+  <div class='description'>Add 'n' to the value in variable 'a'</div>
+" document: %2B%21
+
+" <div class='name'>-!</div>
+  <div class='stack'>na-</div>
+  <div class='description'>Subtract 'n' from the value in variable 'a'</div>
+" document: -%21
+
+" <div class='name'>on</div>
+  <div class='stack'>a-</div>
+  <div class='description'>Set a variable to TRUE</div>
+" document: on
+
+" <div class='name'>off</div>
+  <div class='stack'>a-</div>
+  <div class='description'>Set a variable to FALSE</div>
+" document: off
+
+" <div class='name'>toggle</div>
+  <div class='stack'>a-</div>
+  <div class='description'>Switch a variable between TRUE and FALSE</div>
+" document: toggle
+
+" <div class='name'>variable</div>
+  <div class='stack'>&quot;-</div>
+  <div class='description'>Create a new variable</div>
+
+  <div class='example'><h4>Example:</h4>variable a</div>
+" document: variable
+
+" <div class='name'>variable|</div>
+  <div class='stack'>&quot;-</div>
+  <div class='description'>Create multiple variables</div>
+
+  <div class='example'><h4>Example:</h4>variable| a b c d e |</div>
+" document: variable%7C
+
+" <div class='name'>hex</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the numeric base to hexadecimal.</div>
+" document: hex
+
+" <div class='name'>decimal</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set numeric base to decimal</div>
+" document: decimal
+
+" <div class='name'>binary</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set the numeric base to binary</div>
+" document: binary
+
+" <div class='name'>octal</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set numeric base to octal</div>
+" document: octal
+
+" <div class='name'>&quot;R&quot;</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Mode for file.open</div>
+" document: %22R%22
+
+" <div class='name'>&quot;R+&quot;</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Mode for file.open</div>
+" document: %22R%2B%22
+
+" <div class='name'>&quot;W&quot;</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Mode for file.open</div>
+" document: %22W%22
+
+" <div class='name'>&quot;W+&quot;</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Mode for file.open</div>
+" document: %22W%2B%22
+
+" <div class='name'>&quot;A&quot;</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Mode for file.open</div>
+" document: %22A%22
+
+" <div class='name'>&quot;A+&quot;</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Mode for file.open</div>
+" document: %22A%2B%22
+
+" <div class='name'>START</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Mode for file.seek</div>
+" document: START
+
+" <div class='name'>CURRENT</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Mode for file.seek</div>
+" document: CURRENT
+
+" <div class='name'>END</div>
+  <div class='stack'>-n</div>
+  <div class='description'>Mode for file.seek</div>
+" document: END
+
+" <div class='name'>file.slurp</div>
+  <div class='stack'>$-a</div>
+  <div class='description'>Read a file into a dynamically allocated buffer</div>
+" document: file.slurp
+
+" <div class='name'>is-array</div>
+  <div class='stack'>n &quot;-</div>
+  <div class='description'>Create a new array of size 'n'.</div>
+" document: is-array
+
+" <div class='name'>array.get</div>
+  <div class='stack'>ia-n</div>
+  <div class='description'>Fetch element 'i' from array 'a'</div>
+" document: array.get
+
+" <div class='name'>array.put</div>
+  <div class='stack'>nia-</div>
+  <div class='description'>Put 'n' into element 'i' of array 'a'</div>
+" document: array.put
+
+" <div class='name'>array.getChar</div>
+  <div class='stack'>ia-c</div>
+  <div class='description'>Fetch character 'c' from array 'a' at index 'i'</div>
+" document: array.getChar
+
+" <div class='name'>array.putChar</div>
+  <div class='stack'>cia-</div>
+  <div class='description'>Put character 'c' into array 'a' at index 'i'</div>
+" document: array.putChar
+
+" <div class='name'>&lt;list&gt;</div>
+  <div class='stack'>-a</div>
+  <div class='description'>Array of scope pointers</div>
+" document: %3Clist%3E
+
+
+" <div class='name'>{</div>
+  <div class='stack'>-</div>
+  <div class='description'>Create a new scope</div>
+" document: %7B
+
+" <div class='name'>}</div>
+  <div class='stack'>-</div>
+  <div class='description'>Close the active scope</div>
+" document: %7D
+
+" <div class='name'>+action</div>
+  <div class='stack'>aq &quot;-</div>
+  <div class='description'>Create a new word (&quot;) with the action of the
+                           specified quote (q) and data element (a)</div>
+" document: %2Baction
+
+" <div class='name'>value</div>
+  <div class='stack'>&quot;-</div>
+  <div class='description'>Create a new value</div>
+  <div class='example'><h4>Example:</h4>value foo</div>
+" document: value
+
+" <div class='name'>to</div>
+  <div class='stack'>-</div>
+  <div class='description'>Set a flag telling the next value to update itself</div>
+  <div class='example'><h4>Example:</h4>value foo<br>100 to foo<br>foo .<br>200 to foo<br>foo .</div>
+" document: to
+
+" <div class='name'>value|</div>
+  <div class='stack'>&quot;-</div>
+  <div class='description'>Create multiple values</div>
+  <div class='example'><h4>Example:</h4>value| a b c d |</div>
+" document: value%7C
+
+" <div class='name'>string.grow</div>
+  <div class='stack'>an-b</div>
+  <div class='description'>Increase the physical size of a string by 'n' bytes</div>
+" document: string.grow
+
+" <div class='name'>string.append</div>
+  <div class='stack'>ab-c</div>
+  <div class='description'>Append string 'b' to string 'a'</div>
+" document: string.append
+
+" <div class='name'>string.compare</div>
+  <div class='stack'>ab-f</div>
+  <div class='description'>Compare two strings for equality</div>
+" document: string.compare
+
+" <div class='name'>string.appendChar</div>
+  <div class='stack'>ac-b</div>
+  <div class='description'>Append character 'c' to string 'a'</div>
+" document: string.appendChar
+
+" <div class='name'>string.getLength</div>
+  <div class='stack'>$-$n</div>
+  <div class='description'>Get the length (up to, but not including, ASCII 0) of a string.</div>
+" document: string.getLength
+
+" <div class='name'>string.clone</div>
+  <div class='stack'>a-b</div>
+  <div class='description'>Make a copy of an existing string</div>
+" document: string.clone
+
+" <div class='name'>words-within</div>
+  <div class='stack'>n-</div>
+  <div class='description'>Display all words with a given class</div>
+" document: words-within
+
+" <div class='name'>:prims</div>
+  <div class='stack'>-</div>
+  <div class='description'>Display all primitives</div>
+" document: %3Aprims
+
+" <div class='name'>:datas</div>
+  <div class='stack'>-</div>
+  <div class='description'>Display all data elements</div>
+" document: %3Adatas
+
+" <div class='name'>:quotes</div>
+  <div class='stack'>-</div>
+  <div class='description'>Display all quotes</div>
+" document: %3Aquotes
+
+" <div class='name'>words</div>
+  <div class='stack'>-</div>
+  <div class='description'>Display all names in the dictionary</div>
+" document: words

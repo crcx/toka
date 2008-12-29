@@ -1,0 +1,111 @@
+from /usr/share/toka/library/C/floats.so
+
+{
+  0 import toka_float_init
+  toka_float_init drop
+}
+
+{
+  1 import toka_float_make
+  [ wsparse toka_float_make drop ]
+} is float:
+
+{ 
+  0 import toka_float_add
+  [ toka_float_add drop ] 
+} is f+
+
+{ 
+  0 import toka_float_subtract
+  [ toka_float_subtract drop ] 
+} is f-
+
+{ 
+  0 import toka_float_divide
+  [ toka_float_divide drop ] 
+} is f/
+
+{ 
+  0 import toka_float_multiply
+  [ toka_float_multiply drop ] 
+} is f*
+
+0 import toka_float_size as float-size
+
+{
+  0 import toka_float_display
+  [ toka_float_display drop ]
+} is f.
+
+
+{
+  1 import toka_float_store
+  [ toka_float_store drop ]
+} is f!
+
+
+{
+  1 import toka_float_fetch
+  [ toka_float_fetch drop ]
+} is f@
+
+
+[ float-size malloc is-data ] is fvariable
+
+
+{
+  0 import toka_float_drop
+  [ toka_float_drop drop ]
+} is fdrop
+
+{
+  0 import toka_float_dup
+  [ toka_float_dup drop ]
+} is fdup
+
+{
+  0 import toka_float_swap
+  [ toka_float_swap drop ]
+} is fswap
+
+0 import toka_float_depth as fdepth
+0 import toka_float_display_stack as :fstack
+
+[ fswap fdrop ] is fnip
+[ fdrop fdrop ] is f2drop
+[ fdepth 0 [ fdrop ] countedLoop ] is freset
+
+{
+  fvariable a
+  [ a f! fswap a f@ fswap ] 
+} is frot
+[ frot frot ] is f-rot
+
+{
+  fvariable a
+  [ a f! fdup a f@ fswap ]
+} is fover
+
+[ fdup f-rot ] is ftuck
+[ fover fover ] is f2dup
+
+
+0 import toka_float_compare_equals as f=
+0 import toka_float_compare_not_equals as f<>
+0 import toka_float_compare_less_than as f<
+0 import toka_float_compare_greater_than as f>
+
+{
+  1 import toka_float_push
+  [ toka_float_push drop ]
+} is >float
+
+0 import toka_float_pop as float>
+
+{
+  variable update
+  [ update @ [ f! ] [ f@ ] ifTrueFalse update off ] is action
+  [ update on ]
+  [ ` [ invoke float-size malloc # ` action compile ` ] invoke is ]
+} is fvalue
+  is fto

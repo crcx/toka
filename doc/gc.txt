@@ -1,0 +1,88 @@
+Garbage Collection in Toka
+
+
+Toka's design requires many things (quotes, 
+strings, etc) to be allocated dynamically. This 
+makes manually tracking all of the pointers and 
+allocations tricky.
+
+To work around this, there is a simple garbage 
+collector which is responsible for:
+
+  - All memory allocations
+  - All memory deallocation
+  - Keeping track of all allocations
+
+Memory allocations are done through the 
+gc_alloc() function. The function prototype is:
+
+  gc_alloc(long items, long size, long type)
+
+It takes a number of items (e.g., the number of 
+characters or cells), the size of an individual 
+item, and a lifespan hint (type). 
+
+There are currently two hints for the lifespan 
+of an object. These are:
+
+  - GC_MEM
+  - GC_TEMP
+
+GC_MEM is the normal one. This tells the 
+collector that the allocation may be permanent.
+GC_TEMP is only used internally, for short-lived 
+allocations that are guaranteed to be safe to 
+collect within a short time.
+
+The gc_alloc() function attempts to allocate the 
+requested amount of memory. If the allocation 
+fails, it collects the oldest garbage and 
+retries. If it still fails, ERR_NO_MEM (E1, a 
+fatal error) is invoked. If successful, it 
+updates the proper array (gc_list[] for GC_MEM, 
+or gc_trash[] for GC_TEMP), the total 
+allocations size (gc_used), and the number of 
+allocations currently existing (gc_objects). A 
+pointer to the successful allocation is left on
+the data stack.
+
+Allocations can be marked as permanent via 
+gc_keep(). This has the following function 
+prototype:
+
+  gc_keep()
+
+The gc_keep() function takes a pointer from the 
+top of the data stack and makes that allocation 
+and its children permanent.
+
+We cheat a bit here: Toka assumes that 
+allocations are done in a linear fashion. All 
+allocations which follow the allocation passed 
+to gc_keep() are treated as children. This can 
+lead to small memory leaks, but it seems to work 
+ok in practice.
+
+Memory can be reclaimed by invoking gc(). This
+has the following function prototype:
+
+  gc()
+
+The gc() function normally shouldn't need to be
+called directly. It's invoked by the allocator 
+when one of the collection lists fills up, or 
+when memory allocation fails.
+
+When gc() is invoked, it will remove the oldest
+allocations on each list. Up to 64 GC_TEMP 
+allocations and 32 GC_MEM allocations will be 
+freed per invokation.
+
+If there are less than 64 GC_TEMP or 32 GC_MEM 
+items, the corresponding lists will be left 
+alone.
+
+Note that you can potentially lose valid 
+allocations if you manually invoke gc() when 
+there are just slightly more than 32 GC_MEM 
+allocations.

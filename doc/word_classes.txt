@@ -1,0 +1,40 @@
+================================================
+Word Classes in Toka
+
+
+The current implementation of Toka makes use of
+word classes internally. This was a technique I
+first encountered in HelFORTH. It has since been
+used in RetroForth, Reva, and 4p.
+
+Unlike the above languages, Toka has a limited 
+number of classes and does not (currently) allow
+new word classes to be defined by the user.
+
+Word classes provide a class handler which is
+responsible for dealing with execution tokens.
+The class handlers are aware of various aspects
+of the system state.
+
+In Toka there are three classes:
+
+ - .WORD
+ - .MACRO
+ - .DATA
+
+Normal words (things named with 'is') are given
+a class of .WORD. These are invoked when being
+interpreted, and calls to them are compiled
+when they are used inside of other quotes.
+
+Compiler macros (named with 'is-macro') have a
+class of .MACRO. These are always invoked and
+should take any necessary state information into
+account when being created.
+
+All data elements (named with 'is-data') have a
+class of .DATA. This includes literals, 
+constants, strings, and so on. These words will
+either push their values to the stack (when
+being interpreted) or compile their values as
+a numeric literal (when used inside quotes).

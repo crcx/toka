@@ -1,0 +1,53 @@
+[     ] is :s_var.name
+[ 4 + ] is :s_var.value
+
+[      ] is :s_cookie.version
+[  4 + ] is :s_cookie.name
+[  8 + ] is :s_cookie.value
+[ 12 + ] is :s_cookie.path
+[ 16 + ] is :s_cookie.domain
+
+[     ] is :s_cgi.s_var
+[ 4 + ] is :s_cgi.s_cookie
+
+from /usr/share/toka/library/C/cgi.so
+2 import cgiSetHeader            #! Sets additional HTTP header lines 
+                                 #! to be printed with cgiHeader
+                                 #!   int cgiSetHeader (char *name, char *value);
+
+1 import cgiSetType              #! Sets the result type for HTTP
+                                 #!   int cgiSetType (char *type);
+
+0 import cgiHeader               #! Prints a valid CGI Header
+                                 #!   void cgiHeader ();
+
+2 import cgiDebug                #! Sets/unsets debugging
+                                 #!   void cgiDebug (int level, int where);
+
+0 import cgiInit                 #! Reads in variables set via POST or stdin, 
+                                 #! reads HTTP Cookies.
+                                 #!   s_cgi *cgiInit ();
+
+2 import cgiGetValue             #! Returns the value of the specified variable 
+                                 #! or NULL if it's empty or doesn't exist.
+                                 #!   char *cgiGetValue (s_cgi *parms, const char *name);
+
+1 import cgiGetVariables         #! Returns the names of all form variables
+                                 #!   char **cgiGetVariables (s_cgi *parms);
+
+1 import cgiRedirect             #! Provides a valid redirect for web pages.
+                                 #!   void cgiRedirect (const char *url);
+
+2 import cgiGetCookie            #! Returns the cookie referenced by the given name 
+                                 #! or NULL if it doesn't exist or is empty.
+                                 #!   s_cookie *cgiGetCookie (s_cgi *parms, const char *name);
+
+1 import cgiGetCookies           #! Returns a list of all cookies
+                                 #!   char **cgiGetCookies (s_cgi *params);
+
+1 import cgiFreeList             #! Frees a list as returned by cgiGetVariables() and 
+                                 #! cgiGetCookies()
+                                 #!   void cgiFreeList (char **list);
+
+1 import cgiFree                 #! Fress the internal data structures
+                                 #!   void cgiFree (s_cgi *parms);

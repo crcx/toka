@@ -1,0 +1,27 @@
+#! ---------------------------------------------------------------------
+#! MODULE: conditionals
+#!
+#! Provides:
+#!    Words:
+#!              >=
+#!              ( xy-f )
+#!              Return TRUE if x greater than or equal to y. FALSE otherwise.
+#!
+#!              <=
+#!              ( xy-f )
+#!              Return TRUE if x less than or equal to y. FALSE otherwise.
+#!
+#!              >!=
+#!              ( xy-f )
+#!              Return TRUE if x greater than or not equal to y. FALSE otherwise.
+#!
+#!              <!=
+#!              ( xy-f )
+#!              Return TRUE if x less than or not equal to y. FALSE otherwise.
+#!
+#!
+#! ---------------------------------------------------------------------
+[ 1 - > ] is >=
+[ 1 + < ] is <=
+[ 2dup <> >r > r> or ] is >!=
+[ 2dup <> >r < r> or ] is <!=

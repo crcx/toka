@@ -1,0 +1,11 @@
+i: Math
+needs math
+t:  abs
+  100 abs 100 try
+  -100 abs 100 try
+t:  ^
+  2 4 ^ 16 try
+  3 2 ^ 9 try
+t:  sqrt
+  4 sqrt 2 try
+ 16 sqrt 4 try

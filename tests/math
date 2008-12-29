@@ -1,0 +1,18 @@
+i: Math
+t:  +
+   1 2 + 3 try
+t:  -
+   2 1 - 1 try
+t:  /mod
+   10 3 /mod 3 try 1 try
+t:  *
+   4 4 * 16 try
+t:  negate
+   1 negate -1 try
+  -1 negate 1 try
+t:  /
+  10 3 / 3 try
+t:  mod
+  10 3 mod 1 try
+t:  */
+  100 200 3 */ 6600 try

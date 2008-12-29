@@ -1,0 +1,101 @@
+#! /usr/bin/toka
+#! ----------------------------------------------------
+#! This code was originally written by Tim Larson as a
+#! prototype for a console-based turtle drawing system.
+#!
+#! It allows for drawing on the screen using the arrow
+#! keys.
+#! ----------------------------------------------------
+
+needs case
+needs console
+
+value| max-x max-y pen x y loop? char |
+50 to x
+ 0 to y
+TRUE to loop?
+char: @ to char
+
+console_dimensions to max-y to max-x
+
+[ x 1 < [ 1 to x ] ifTrue
+  y 1 < [ 1 to y ] ifTrue
+  x max-x > [ max-x to x ] ifTrue
+  y max-y 1 - > [ max-y 1 - to y ] ifTrue
+] is check-bounds
+
+[ char to pen ] is pen-draw
+[ SPACE to pen ] is pen-erase
+[ FALSE to pen ] is pen-move
+[ check-bounds pen FALSE <> [ x y xy pen emit ] ifTrue x y xy ] is draw
+
+[ 0 max-y xy ." New pen character: " 
+  getkey dup emit to char char to pen 
+  0 max-y xy max-x 1 - [ space ] iterate 
+] is change-pen
+
+[ home
+."
+000000000000000000000000000000000
+0                               0
+0 Use arrow keys to move around 0
+0                               0
+0 'c' to clear the drawing      0
+0 'm' to move around (default)  0
+0 'd' to draw                   0
+0 'e' to erase                  0
+0 'q' to exit                   0
+0 'h' to show this help         0
+0 '/' to change the pen symbol  0
+0                               0
+0 '1' red      '5' cyan         0
+0 '2' green    '6' magenta      0
+0 '3' blue     '7' white        0
+0 '4' yellow   '8' bold         0
+0 '9' normal                    0
+0                               0
+000000000000000000000000000000000"
+] is show-help
+
+[   char: 1 [ red ] case
+    char: 2 [ green ] case
+    char: 3 [ blue ] case
+    char: 4 [ yellow ] case
+    char: 5 [ cyan ] case
+    char: 6 [ magenta ] case
+    char: 7 [ white ] case
+    char: 8 [ bold ] case
+    char: 9 [ normal ] case
+] is check-colors
+
+
+[   char: c [ clear ] case
+    char: m [ pen-move  ] case
+    char: d [ pen-draw  ] case
+    char: e [ pen-erase ] case
+    char: u [ console_dimensions to max-y to max-x ] case
+    char: q [ FALSE to loop? ] case
+    char: h [ show-help ] case
+    char: / [ change-pen ] case
+] is check-commands
+
+[   K_UP    [ y 1 - to y ] case
+    K_DOWN  [ y 1 + to y ] case
+    K_LEFT  [ x 1 - to x ] case
+    K_RIGHT [ x 1 + to x ] case
+] is check-movement
+
+[ console_init
+  [ getkey
+    switch
+    check-movement
+    check-commands
+    check-colors
+    draw
+    loop?
+  ] whileTrue
+  console_cleanup
+] is foo
+
+clear show-help pen-move draw
+foo 0 max-y xy normal bye

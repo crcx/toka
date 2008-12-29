@@ -1,0 +1,33 @@
+{
+  2 import strcmp
+  value top 1 to top
+  4096 cells is-array names
+  4096 cells is-array docstrings
+
+  [ keep top names array.put ] is +name
+  [ keep top docstrings array.put ] is +docstring
+  [ top 1 + to top ] is next
+
+  [ ( $- )
+    wsparse +name +docstring next ] is document:
+
+  value| which found |
+  [ ( $-$ )
+    to which
+    0 to found
+    1 top [ i names array.get which strcmp 0 = [ i docstrings array.get to found ] ifTrue ] countedLoop
+    found 0 <> [ found ] [ " Sorry, no help was found\n" ] ifTrueFalse
+  ] is :getHelp
+
+  [ ( - )
+    1 top [ i names array.get type cr i docstrings array.get type cr ] countedLoop 
+  ] is :dumpAllHelp
+
+  ` document:
+  ` :getHelp
+  ` :dumpAllHelp
+}
+
+is :dumpAllHelp
+is :getHelp
+is document:

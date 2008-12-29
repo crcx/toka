@@ -1,0 +1,12 @@
+3 import regcomp
+5 import regexec
+4 import regerror
+1 import regfree
+
+{
+  [ 20 cells malloc dup is-data ] is create
+  [ create swap 0 regcomp drop ]
+} is regex:
+
+[ 0 regexec 0 <> [ FALSE ] [ TRUE ] ifTrueFalse ] is try-regex
+

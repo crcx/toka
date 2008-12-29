@@ -1,0 +1,8 @@
+[ parser off
+  [ dup 1 + swap 
+    wsparse dup c@ char: | <>
+    [ is-data TRUE ] [ 2drop FALSE ] ifTrueFalse
+  ] whileTrue
+  parser on
+  drop
+] is enum|

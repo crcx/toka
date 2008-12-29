@@ -1,0 +1,3 @@
+#! /bin/bash
+cat *.c | grep \*\|F\|  | colrm 1 6 >FUNCTIONS
+cat *.c | grep \*\|G\|  | colrm 1 6 >GLOSSARY

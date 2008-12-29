@@ -1,0 +1,19 @@
+#! /usr/bin/toka
+
+#! Shared bits
+[ dup . ] is d.
+[ " of beer" type ] is beer
+[ d. " of beer" type ] is .beer
+[ "  on the wall, " type ] is wall
+[ d. " bottles " type ] is .bottles
+[ d. " bottle " type ] is .bottle
+[ " Take one down and pass it around, " type ] is take
+
+#! Wrap it all up
+[ .bottles beer wall .bottles beer cr 
+  take 1 - .bottles beer wall cr cr
+] is sing
+
+#! Sing the song
+99 1 [ i sing drop ] countedLoop
+bye

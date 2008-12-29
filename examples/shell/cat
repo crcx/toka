@@ -1,0 +1,13 @@
+#! /usr/bin/toka
+
+#! ================================================
+#! A simple implementation of the 'cat' utility.
+#! ================================================
+
+[ " cat: can't open " type type cr ] is error
+
+1 #args [ i arglist array.get 
+        file.slurp dup 0 <> 
+        [ type ] [ drop i arglist array.get error ] ifTrueFalse
+      ] countedLoop 
+bye

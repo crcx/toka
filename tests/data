@@ -1,0 +1,47 @@
+i: Data
+t:  variable
+  variable foo
+t:  value
+  value bar
+  bar 0 try
+t:  to
+  100 to bar bar 100 try
+  200 to bar bar 200 try
+t:  base
+   base drop
+t:  @
+   10 base @ try
+t:  !
+   16 16 base ! base @ try
+   a base !
+t:  compiler
+   [ -1 compiler ! ] is }}
+   [  0 compiler ! ] is-macro {{
+   [ 1 {{ 2 swap }} ] swap 2 try invoke 1 try
+t:  heap
+   [ 0 {{ 0 heap @ ! invoke 0 try
+t:  +!
+   100 foo !
+   10 foo +!
+   foo @ 110 try
+t:  -!
+   10 foo -!
+   foo @ 100 try
+t:  on
+   foo on
+   foo @ TRUE try
+t:  off
+   foo off
+   foo @ FALSE try
+t:  toggle
+   foo off
+   foo @ FALSE try
+   foo toggle
+   foo @ TRUE try
+   foo toggle
+   foo @ FALSE try
+t:  Sizing
+   100 chars 100 char-size * try
+   100 cells 100 cell-size * try
+   1 cells cell+ 1 cells cell-size + try
+   1 chars char+ 1 chars char-size + try

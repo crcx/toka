@@ -1,0 +1,311 @@
+#! /usr/bin/toka
+#! ---------------------------------------------------------------
+#! HTTP/0.9 Compliant Server
+#!
+#! This complies with the HTTP/0.9 spec as outlined at:
+#! http://www.w3.org/Protocols/HTTP/AsImplemented.html
+#!
+#! It can serve static html pages and simple CGI scripts
+#! written in Toka, Perl, and PHP.
+#!
+#! Copyright (c)2007 by erider and Charles Childers
+#! This code may be used under the terms of the MIT/X11 License.
+#! ---------------------------------------------------------------
+
+
+#! =============================================================== CONFIGURARTION
+ " /var/www/htdocs/" is-data DEFAULT-DOCROOT
+ " home.html" is-data DEFAULT-PAGE
+
+#! ---------------------------------------------------------------
+#! HTML Document Root 
+#!
+#! The HTTP server allows overriding the default docroot at the
+#! command line. For example:
+#!
+#! ./httpd.toka /var/www/
+#! ---------------------------------------------------------------
+#args 1 > [ 1 arglist array.get ]
+          [ DEFAULT-DOCROOT ] ifTrueFalse
+is-data docroot
+#! ---------------------------------------------------------------
+
+#! ---------------------------------------------------------------
+#! 404
+#! Sent when a page is not found.
+#! ---------------------------------------------------------------
+[ 
+  " <html>
+    <head><title>toka-httpd: 404 Page not found</title></head>
+    <body>
+    <h1>Error 404</h1>
+    <p>Sorry, but the page you requested was not found.</p>
+    </body>
+    </html>"
+] is ERROR404
+
+
+
+#! =============================================================== LIBRARIES NEEDED
+needs sockets
+needs shell
+needs case
+
+  3 import memset     #! void *memset(void *s, int c, size_t n);
+  6 import sprintf 
+
+  2 import strchr    #! char *strchr(const char *s, int c)
+  2 import strstr    #! char *strstr(const char *haystack, const char *needle)
+  2 import strtok    #! char *strtok(char *str, const char *delim)
+
+  [ swap string.clone swap strtok ] is string.findToken
+  [ swap string.clone swap strstr ] is string.findSubstring
+  [ swap string.clone swap strchr ] is string.findChar
+
+#! ---------------------------------------------------------------
+
+
+
+#! =============================================================== SOCKET I/O
+#! Several buffers used for input and CGI related tasks
+#! ---------------------------------------------------------------
+1024 chars is-data 1KiB
+1KiB is-array buffer
+1KiB is-array cgi-cmd
+1KiB is-array scratch
+
+
+#! ---------------------------------------------------------------
+#! Extend reset to purge the input buffer as well as the stack
+#! ---------------------------------------------------------------
+[ buffer 0 1KiB memset reset ] is reset
+
+
+#! ---------------------------------------------------------------
+#! new-connection
+#! Setup a new connection. This involves bindings port 80 to 
+#! localhost, and waiting for a client to connect to it. The 
+#! connection and socket variables are set by this code.
+#!
+#! end-connection
+#! Closes the current connection. This allows for new connections
+#! to be made.
+#! ---------------------------------------------------------------
+variable| socket connection |
+
+80 pBind socket !
+[ socket @ pAccept connection ! ] is new-connection
+[ connection @ pClose ] is end-connection
+
+
+#! ---------------------------------------------------------------
+#! send
+#! Send a string to the currently connected client
+#! ---------------------------------------------------------------
+[ >r connection @ r> string.getLength pWrite ] is send
+
+#! ---------------------------------------------------------------
+#! send?
+#! Attempt to send a file to the client. This will only succeed if
+#! the file can be slurp'd into a buffer. If it fails, a 404 page
+#! is sent instead.
+#! ---------------------------------------------------------------
+[ file.slurp dup FALSE <> [ send ] [ ERROR404 send ] ifTrueFalse ] is send?
+
+
+#! ---------------------------------------------------------------
+#! get-request
+#! This reads a client request of up to 1k into the buffer. The
+#! number of bytes read is returned.
+#! ---------------------------------------------------------------
+[ connection @ buffer 1KiB pRead ] is get-request
+
+
+
+
+#! =============================================================== REQUEST HANDLING, PART 1
+
+#! ---------------------------------------------------------------
+#! The following section is for processing requests
+#! Method:    Function:
+#! --------------------------------------------------------------- 
+#! GET     -  the word GET, used for locating a GET request
+#! DELIMS  -  A set of delimiters used to help break apart 
+#!            the request
+#! REQUEST -  A string containing a three character request. This
+#!            may need to be made larger in the future.
+#! ---------------------------------------------------------------
+ " GET"  is-data GET
+ " \n "  is-data DELIMS
+
+ 4 chars is-array REQUEST 
+ 0 3 REQUEST array.putChar   ( Add a null byte to the REQUEST array )
+
+
+#! ---------------------------------------------------------------
+#! split-request
+#! Copy the first three characters from buffer to REQUEST
+#!
+#! Three characters is enough to identify the most important 
+#! requests.
+#! ---------------------------------------------------------------
+[ buffer REQUEST 3 copy REQUEST ] is split-request
+
+
+#! ---------------------------------------------------------------
+#! extract-filename
+#! Strip out the leading / and junk that follows the requested
+#! filename.
+#! ---------------------------------------------------------------
+[
+  buffer " /" string.findSubstring char+ 
+  DELIMS string.findToken
+] is extract-filename
+
+
+#! ---------------------------------------------------------------
+#! obtain-filename
+#! Return a filename from the request. This checks for requests
+#! like "GET /" as well as requests like "GET /filename".
+#! ---------------------------------------------------------------
+[
+  buffer " /" string.findSubstring
+  DELIMS string.findToken " /" string.compare
+  [ DEFAULT-PAGE ]
+  [ extract-filename ]
+  ifTrueFalse
+] is obtain-filename
+
+
+
+
+#! =============================================================== FILE TYPES
+#! check-type
+#! Check to see if the requested filename matches the pattern. If
+#! so, invokes the quote.
+#! ---------------------------------------------------------------
+[ swap >r obtain-filename basename 0 fnmatch 0 = r> ifTrue ] is check-type
+
+
+#! ---------------------------------------------------------------
+#! Build command lines for CGI purposes
+#!
+#! This provides:
+#!   cgi:perl
+#!   cgi:php
+#!   cgi:toka
+#!
+#! The output from CGI scripts will be captured in a CGIOUT file.
+#! ---------------------------------------------------------------
+docroot " CGIOUT" string.append is-data CGIOUT
+
+[ 
+  cgi-cmd " %s %s%s >%s" " perl" docroot obtain-filename CGIOUT sprintf
+  cgi-cmd system
+] is cgi:perl
+[ 
+  cgi-cmd " %s %s%s >%s" " php" docroot obtain-filename CGIOUT sprintf
+  cgi-cmd system
+] is cgi:php
+[ 
+  cgi-cmd " %s %s%s >%s" " toka" docroot obtain-filename CGIOUT sprintf
+  cgi-cmd system
+] is cgi:toka
+
+
+#! ---------------------------------------------------------------
+#! text-file
+#! Default handler for any type of text file. This is factored
+#! out from return-requested.
+#! ---------------------------------------------------------------
+[ docroot obtain-filename string.append ] is text-file
+
+
+
+
+#! =============================================================== REQUEST HANDLING, PART 2
+#! check-type-cgi
+#! Check for CGI file types
+#! ---------------------------------------------------------------
+[
+  [ cgi:perl CGIOUT ] " *.pl"   check-type
+  [ cgi:php  CGIOUT ] " *.php"  check-type
+  [ cgi:toka CGIOUT ] " *.toka" check-type
+] is check-type-cgi
+
+
+#! ---------------------------------------------------------------
+#! check-type-text
+#! Check for text (ascii, html, svg, etc) file types
+#! ---------------------------------------------------------------
+[
+  [ text-file ] " *.html" check-type
+  [ text-file ] " *.txt"  check-type
+  [ text-file ] " *.svg"  check-type
+  [ text-file ] " *.css"  check-type
+  [ text-file ] " *.shar" check-type
+] is check-type-text
+
+
+#! ---------------------------------------------------------------
+#! return-requested
+#! Append the requested filename to the docroot
+#!
+#! If a CGI script, this will return the output instead.
+#! ---------------------------------------------------------------
+[ 
+  check-type-cgi
+  check-type-text
+] is return-requested
+
+
+#! ---------------------------------------------------------------
+#! string-case Statement to handle Client Request
+#! When this handles messages other than GET, we may achieve 
+#! HTTP/1.0 compatibility.
+#! ---------------------------------------------------------------
+[ split-request
+  switch
+  GET  [ return-requested send? ] string-case
+] is check-request
+
+
+
+
+#! =============================================================== LOGGING
+#! Log requests to stdout.
+#! This takes a standard form of:
+#!   REQUEST #  client-request
+#! Most should be GET requests.
+#! ---------------------------------------------------------------
+#! #requests - The total number of requests since the 
+#!             server started 
+#!
+#! log-request
+#! Increment #requests and display the request number and actual
+#! GET request.
+#! ---------------------------------------------------------------
+variable| #requests |
+[
+  1 #requests +!
+  ." REQUEST #" #requests @ . space space
+  buffer " \n" string.findToken type cr
+] is log-request
+
+
+
+
+#! =============================================================== MAIN LOOP
+." Docroot set to: " docroot type cr 
+." ---------- Starting Toka HTTP Daemon ----------\n"
+
+[
+  new-connection
+  get-request 
+  log-request
+  check-request
+  end-connection
+  reset
+  TRUE
+] keep whileTrue
+bye

@@ -1,0 +1,40 @@
+{
+  value| A1 A2 size index flag actual |
+
+  [ dup dup
+    cell-size / to size
+    malloc keep to A1 malloc keep to A2 ] is (malloc-array)
+
+  [ ( "requested" #elements index-array value-array - ) 
+    to A2 to A1 to size to index 
+    0 to actual  FALSE to flag
+  ] is (prepare)
+
+  [ 0 size ] is bounds
+
+  [ i A1 array.get ] is get-index
+
+  [ (prepare)
+    bounds [ get-index dup 0 <> [ index string.compare ] ifTrue [ TRUE to flag i to actual ] ifTrue ] countedLoop
+    flag [ bounds [ get-index 0 = actual 0 = and [ i to actual ] ifTrue ] countedLoop ] ifFalse
+  ] is find
+
+  [ find
+    flag [ actual A2 array.get ] [ FALSE ] ifTrueFalse
+  ] is asarray.get
+
+  [ find
+    flag [ index keep actual A1 array.put ] ifFalse
+    actual A2 array.put
+  ] is asarray.put
+
+  [ (malloc-array) ` [ invoke size # A1 # A2 # ` ] invoke is ] is is-asarray
+
+
+  ` is-asarray
+  ` asarray.put
+  ` asarray.get
+}
+  is asarray.get
+  is asarray.put
+  is is-asarray

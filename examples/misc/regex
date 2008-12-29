@@ -1,0 +1,18 @@
+#! /usr/bin/toka
+needs regex
+
+2 cells is-array pmatch
+" This is a test: Hello, World!" is-data test1
+" This is a test: Goodbye, World!" is-data test2
+
+" [Hh]ello" regex: preg
+
+." Test 1: Search for [Hh]ello in: " test1 type cr
+preg test1 2 pmatch try-regex
+[ 0 pmatch array.get test1 + type cr ] [ ." No match found\n" ] ifTrueFalse
+
+." Test 2: Search for [Hh]ello in: " test2 type cr
+preg test2 2 pmatch try-regex
+[ 0 pmatch array.get test2 + type cr ] [ ." No match found\n" ] ifTrueFalse
+
+bye

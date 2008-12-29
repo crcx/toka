@@ -1,0 +1,49 @@
+Quotes
+
+Toka is built on the concept of quotes. These
+are (literally) small, anonymous, temporary 
+blocks of code. Quotes are the foundation of 
+all functions ("words"), conditionals, and loops.
+
+The simplest quote is an empty one:
+
+  [ ]
+
+Running this will leave a pointer on the stack. 
+At this point, the quote isn't very useful. We
+can invoke it:
+
+  [ ] invoke
+
+But nothing will happen since the quote is empty.
+Creating a quote will allocate memory. If the 
+quote is not named or a child of a named quote, 
+it will eventually be purged by the garbage 
+collector.
+
+Quotes can contain other things. For instance:
+
+  [ 1 2 3 ] 
+
+Again, running this will leave a pointer. If we
+invoke this quote, the numbers 1, 2, and 3 will
+be left on the stack. You can also reference 
+other named quotes from within them:
+
+  [ 1 2 + . ]
+
+This one pushes 1, then 2, to the stack. It then
+calls '+', a quote which adds two numbers, and 
+'.', a quote which displays the top value on the
+stack.
+
+If we want to keep the quote around, we can do
+so by naming it. Names are attached primarily by
+'is'.
+
+  [ 1 2 + . ] is 1+2
+
+Once a name is attached, the quote can be invoked
+by name:
+
+  1+2

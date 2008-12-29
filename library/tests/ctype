@@ -1,0 +1,56 @@
+i: ctype
+needs ctype
+
+[ TRUE = [ ." \nFailed\n" cr bye ] ifFalse ] is ctry
+
+t:  isalnum
+  char: A isalnum 0 <> ctry
+  char: # isalnum 0  = ctry
+  char: 1 isalnum 0 <> ctry
+t:  isalpha
+  char: A isalpha 0 <> ctry
+  char: # isalpha 0  = ctry
+  char: 1 isalpha 0  = ctry
+t:  isascii
+  char: A isascii 0 <> ctry
+  char: # isascii 0 <> ctry
+  char: 1 isascii 0 <> ctry
+t:  isdigit
+  char: A isdigit 0  = ctry
+  char: # isdigit 0  = ctry
+  char: 1 isdigit 0 <> ctry
+t:  isgraph
+  char: A isgraph 0 <> ctry
+  char: # isgraph 0 <> ctry
+  char: 1 isgraph 0 <> ctry
+t:  islower
+  char: A islower 0  = ctry
+  char: a islower 0 <> ctry
+t:  isprint
+  char: A isprint 0 <> ctry
+  char: # isprint 0 <> ctry
+  char: 1 isprint 0 <> ctry
+
+cr
+
+t:  ispunct
+  char: A ispunct 0  = ctry
+  char: . ispunct 0 <> ctry
+  char: 1 ispunct 0  = ctry
+t:  isspace
+  char: A  isspace 0  = ctry
+  TAB      isspace 0 <> ctry
+  SPACE    isspace 0 <> ctry
+t:  isupper
+  char: A isupper 0 <> ctry
+  char: a isupper 0  = ctry
+t:  isxdigit
+  char: A isxdigit 0 <> ctry
+  char: # isxdigit 0  = ctry
+  char: 1 isxdigit 0 <> ctry
+t:  tolower
+  char: A tolower char: a = ctry
+  char: a tolower char: a = ctry
+t:  toupper
+  char: A toupper char: A = ctry
+  char: a toupper char: A = ctry

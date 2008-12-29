@@ -1,0 +1,17 @@
+#! Various things from ctype.h
+
+1 import isalnum
+1 import isalpha
+1 import isascii
+1 import iscntrl
+1 import isdigit
+1 import isgraph
+1 import islower
+1 import isprint
+1 import ispunct
+1 import isspace
+1 import isupper
+1 import isxdigit
+1 import toascii
+1 import tolower
+1 import toupper

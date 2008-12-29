@@ -1,0 +1,7 @@
+#! /usr/bin/toka
+
+#! |G| fib  ( n-x )   Calculate fibocinni value for 'n'.
+[ dup 1 > [ dup 1 - recurse swap 2 - recurse + ] ifTrue ] is fib
+
+35 fib . cr
+bye

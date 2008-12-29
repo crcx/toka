@@ -1,0 +1,25 @@
+#! /usr/bin/toka
+
+needs sockets
+
+{
+  variable| socket maxlength |
+
+  [ LF string.appendChar ] is +lf 
+  [ socket @ swap +lf string.getLength pWrite ] is send
+
+  1024 1024 * chars is-array buffer
+
+  " www.google.com" is-data URL
+  " GET / HTTP/1.0\nHOST: www.google.com\n\n" is-data REQUEST
+
+  1024 1024 * chars maxlength !
+
+  URL 80 pConnect socket !
+  REQUEST send
+
+  20 0 [ socket @ buffer maxlength @ pRead
+       buffer type reset
+     ] countedLoop 
+}
+cr bye

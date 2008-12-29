@@ -1,0 +1,140 @@
+<<       ( ab-c )    Shift 'a' left by 'b' bits
+>>       ( ab-c )    Shift 'a' right by 'b' bits
+and      ( ab-c )    Perform a bitwise AND
+or       ( ab-c )    Perform a bitwise OR
+xor      ( ab-c )    Perform a bitwise XOR
+#args    (  -n )     Return the number of arguments
+arglist  (  -a )     Return a pointer to the 
+                     array of command line arguments.
+<        ( ab-f )    Compare 'a' and 'b', return
+                     a flag
+>        ( ab-f )    Compare 'a' and 'b', return
+                     a flag
+=        ( ab-f )    Compare 'a' and 'b', return
+                     a flag
+<>       ( ab-f )    Compare 'a' and 'b', return
+                     a flag
+.        ( n- )      Display the numeric value
+                     TOS represents
+emit     ( c- )      Display the ASCII character
+                     TOS represents.
+type     ( a- )      Display a string
+bye      ( - )       Quit Toka
+#        ( n- )      Compile the number in TOS
+                     into a definition.
+$#       ( n- )      Compile the string pointer in
+                     TOS into a definition.
+@        ( a-n )     Fetch the value in memory
+                     location 'a'
+!        ( na- )     Store 'n' to memory location
+                     'a'
+c@        ( a-n )    Fetch a byte from memory
+                     location 'a'
+c!        ( na- )    Store byte 'n' to memory
+                     location 'a'
+copy     ( sdc- )    Copy 'c' bytes from 's' to
+                     'd'
+cell-size ( -n )     Return the size of a cell
+char-size ( -n )     Return the size of a char
+:stat    (  -  )     Display information about
+                     the virtual machine status
+:see     (  a- )     Decompile the specified quote
+last     ( -a )      Variable holding the number
+                     of the most recent dictionary
+                     entry
+is       ( a"- )     Attach a name to a quote
+         ( a$- )     Non-parsing form
+is-macro ( a"- )     Attach a name to a quote
+         ( a$- )     Non-parsing form
+is-data  ( a"- )     Attach a name to data memory
+         ( a$- )     Non-parsing form
+`        ( "-a )     Return a quote corresponding
+                     to the specified word.
+         ( $-a )     Non-parsing form
+:name    ( n-$ )     Return the name for a 
+                     dictionary entry
+:xt      ( n-$ )     Return the address of a 
+                     dictionary entry
+:class   ( n-$ )     Return the class # for a 
+                     dictionary entry
+from     ( "- )      Set the library to import from
+         ( $- )      Non-parsing form
+import   ( n"- )     Import a function taking 'n'
+                     arguments.
+         ( n$- )     Non-parsing form
+as       ( "- )      Rename the last defined word
+         ( $-  )     Non-parsing form
+file.open  ( $m-n )  Open a specified file with
+                     the specified mode.
+file.close ( n- )    Close the specified file handle
+file.read  ( nbl-r ) Read 'l' bytes into buffer 'b'
+                     from file handle 'n'. Returns
+                     the number of bytes read.
+file.write ( nbl-w ) Write 'l' bytes from buffer 'b'
+                     to file handle 'n'. Returns
+                     the number of bytes written.
+file.size  ( n-s )   Return the size (in bytes)
+                     of the specified file.
+file.seek  ( nom-a ) Seek a new position in the
+                     file. Valid modes are
+                     START, CURRENT, and END.
+file.pos   ( n-a )   Return a pointer to the current
+                     offset into the file.
+keep     ( a-a )     Mark quotes/allocated memory
+                     as permanent.
+gc       ( - )       Clean the garbage
+malloc   ( n-a )     Allocate 'n' bytes of memory
+heap     ( -a )      Variable pointing to the top
+                     of the local heap
+compiler ( -a )      Variable holding the compiler
+                     state
++        ( ab-c )    Add TOS and NOS
+-        ( ab-c )    Subtract TOS from NOS
+*        ( ab-c )    Multiply TOS by NOS
+/mod     ( ab-cd )   Divide and get remainder
+base     ( -a )      Variable containg the current
+                     numeric base
+parser   ( -a )      Variable holding current parser
+                     mode.
+escape-sequences ( -a)  Variable determining if
+                        escape sequences are used.
+>number  ( a-nf )    Attempt to convert a string
+                     to a number
+>string  ( n-a )     Convert a number to a string
+parse    ( d-a )     Parse until the character 
+                     represented by 'd' is found.
+                     Return a pointer to the string
+include   ( "- )     Attempt to open a file and
+                     add it to the input stack.
+          ( $- )     Non-parsing form
+needs     ( "- )     Attempt to include a file
+                     from the library (normally
+                     /usr/share/toka/library)
+          ( $- )     Non-parsing form
+end.      ( - )      Remove the current file from
+                     the input stack
+[        ( -a )      Create a new quote
+]        ( - )       Close an open quote
+invoke   ( a- )      Execute a quote
+compile  ( a- )      Compile a call to the quote
+countedLoop ( ulq- ) Execute a quote a set number
+                     of times, updating the 'i'
+                     counter each time.
+ifTrueFalse ( fab- ) Invoke 'a' if 'f' flag is
+                     true, 'b' if false.
+recurse  ( - )       Compile a call to the top
+                     quote.
+i        ( -n )      Return the current loop index
+whileTrue  ( a- )    Execute quote. If the quote
+                     returns TRUE, execute again.
+                     otherwise end the cycle.
+whileFalse ( a- )    Execute quote. If the quote
+                     returns TRUE, execute again.
+                     otherwise end the cycle.
+dup      ( n-nn )    Duplicate the TOS
+drop     ( n- )      Drop the TOS
+swap     ( ab-ba )   Exchange the TOS and NOS
+>r       ( n- )      Push TOS to return stack, DROP
+r>       ( -n )      Pop TORS to the data stack
+depth    ( -n )      Return the number of items
+                     on the stack

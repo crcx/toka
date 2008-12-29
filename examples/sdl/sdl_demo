@@ -1,0 +1,51 @@
+#! /usr/bin/toka
+
+needs sdl
+needs case
+200 200 sdl_setup drop
+
+sdl_event_size malloc is-data event
+
+10 10 rgb: ff0000 putpixel
+11 10 rgb: ff0000 putpixel 
+12 10 rgb: ff0000 putpixel 
+13 10 rgb: ff0000 putpixel 
+14 10 rgb: ff0000 putpixel 
+15 10 rgb: ff0000 putpixel 
+10 11 rgb: ff0000 putpixel 
+11 11 rgb: ff0000 putpixel 
+12 11 rgb: ff0000 putpixel 
+13 11 rgb: ff0000 putpixel 
+14 11 rgb: ff0000 putpixel 
+15 11 rgb: ff0000 putpixel 
+10 12 rgb: ff0000 putpixel 
+11 12 rgb: ff0000 putpixel 
+12 12 rgb: ff0000 putpixel 
+13 12 rgb: ff0000 putpixel 
+14 12 rgb: ff0000 putpixel 
+15 12 rgb: ff0000 putpixel 
+
+10 20 45 rgb: 00ff00 vline
+10 20 45 rgb: 00ff00 hline
+
+50 50 20 rgb: 0f0fff circle
+50 50 17 rgb: 0f0fff circle
+50 50 14 rgb: 0f0fff circle
+
+0 0 80 80 rgb: ff00ff line
+
+30 30 60 60 rgb: ffff00 box
+
+[  
+  event SDL_WaitEvent drop
+  event sdl_event_type 
+
+  switch
+  SDL_QUIT [ bye ] case
+  SDL_KEYDOWN [ ." A key was pressed: " event get-keysym dup ." ASCII=". ."  symbol=" emit cr ] case
+  SDL_MOUSEMOTION [ event get-mouse-coords ." Mouse at x=" . ."  y=" . cr ] case
+  SDL_MOUSEBUTTONDOWN [ ." Mouse button was pressed\n" ] case
+  SDL_MOUSEBUTTONUP [ ." Mouse button was released\n" ] case
+
+  TRUE
+] keep whileTrue

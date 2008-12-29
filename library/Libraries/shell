@@ -1,0 +1,20 @@
+1 import remove
+1 import system
+3 import fnmatch
+1 import basename
+2 import mkdir
+0 import fork
+0 import getpid
+2 import rename
+
+{
+  1024 chars is-array path
+  2 import getcwd
+  [ path 1024 getcwd drop path ]
+} is getcwd
+
+from /usr/share/toka/library/C/shell.so
+{
+  2 import shell_directory_list_by_pattern
+  [ shell_directory_list_by_pattern drop ]
+} is dir.listByPattern

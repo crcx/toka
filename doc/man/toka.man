@@ -1,0 +1,28 @@
+NAME
+  toka - a programming language
+SYNOPSIS
+  toka [script] [script-args]
+DESCRIPTION
+  Toka is a small language with many similarities to Forth. It
+  was designed to be be easily learned, extended, and used. In
+  addition, it acts a research project, and thus has an evolving
+  set of features. 
+
+  It has a minimal form of garbage collection, decompiler, makes
+  use of threaded code, and provides a small number of carefully
+  selected primitives. In addition, it also features a standard
+  bootstrap module (loaded on startup), which greatly expands the
+  core primitives into a useful language.
+OPTIONS
+  script       The name of a file to load and run
+  script-args  A list of arguments for the script
+EXAMPLE
+  To start the Toka Listener, do:
+
+      $ toka
+SEE ALSO
+  poharu(1)
+BUGS
+  - None at present
+AUTHOR
+  Charles Childers <charles.childers@gmail.com>

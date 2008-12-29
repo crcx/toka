@@ -1,0 +1,16 @@
+NAME
+  poharu - an editor for toka
+SYNOPSIS
+  poharu [filename]
+DESCRIPTION
+  Poharu is a lightweight text editor designed to be used with
+  Toka. It allows for easily running the loaded file in Toka
+  and invoking the listener.
+OPTIONS
+  filename    The name of a file to load for editing and running
+SEE ALSO
+  toka(1)
+BUGS
+  - None at present
+AUTHOR
+  Charles Childers <charles.childers@gmail.com>

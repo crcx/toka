@@ -1,0 +1,12 @@
+i: Associative Arrays
+needs asarray
+t:  is-asarray
+  10 cells is-asarray foo
+t:  asarray.put
+  10 " first"  foo asarray.put
+  12 " second" foo asarray.put
+  18 " third"  foo asarray.put
+t:  asarray.get
+  " first"  foo asarray.get 10 try
+  " second" foo asarray.get 12 try
+  " third"  foo asarray.get 18 try

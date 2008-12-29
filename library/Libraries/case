@@ -1,0 +1,48 @@
+#! ---------------------------------------------------------------------
+#! MODULE: case
+#!
+#! Provides:
+#!    Data:
+#!              <cond>
+#!    Words:
+#!              switch
+#!              ( n- )
+#!              Store 'n' into '<cond>' variable
+#!
+#!              case
+#!              ( nq- )
+#!              Compare 'n' to value in '<cond>' and invoke
+#!              quote 'q' if TRUE.
+#!
+#!              string-case
+#!              ( nq- )
+#!              Compare string 'n' to string pointed to by '<cond>' and 
+#!              invoke quote 'q' if TRUE.
+#!
+#! ---------------------------------------------------------------------
+#! Typical form:
+#!   switch
+#!     <value> [ ... ] case
+#!     <value> [ ... ] case
+#!     <value> [ ... ] case
+#!
+#!   switch
+#!     <value> [ ... break ] case
+#!     <value> [ ... break ] case
+#!             [ ... ]       default
+#!
+#!   switch
+#!     <value> [ ... ] string-case
+#!     <value> [ ... ] string-case
+#!     <value> [ ... ] string-case
+#! ---------------------------------------------------------------------
+
+value| <cond> <default> |
+[ >r <cond> = r> ifTrue ] is case
+[ FALSE to <default> ] is break
+[ <default> swap ifTrue ] is default
+[ to <cond> TRUE to <default> ] is switch 
+{
+  2 import strcmp
+  [ >r <cond> strcmp 0 = r> ifTrue ]
+} is string-case

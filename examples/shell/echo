@@ -1,8 +1,8 @@
 #! /usr/bin/toka
 
 #! ================================================
-#! A simple, almost V7 compatible version of the 
-#! 'echo' utility. 
+#! A simple, almost V7 compatible version of the
+#! 'echo' utility.
 #!
 #! Todo:
 #!   Add -n flag (no trailing newline)

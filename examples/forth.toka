@@ -71,7 +71,7 @@
 
 
 #! ==========================================================
-#! These are just some thin wrappers to provide more 
+#! These are just some thin wrappers to provide more
 #! traditional names for some functionality.
 #! ==========================================================
 : .s :stack ;

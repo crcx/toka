@@ -1,7 +1,7 @@
 #! ---------------------------------------------------------------
 #! server
 #!
-#! This is a simple framework for building simple servers. It 
+#! This is a simple framework for building simple servers. It
 #! needs:
 #!  - sockets
 #! ---------------------------------------------------------------

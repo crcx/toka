@@ -5,7 +5,7 @@
 1   = BLACK     Use the arrow
 2   = RED       keys to move
 3   = GREEN     and draw.
-4   = BLUE      
+4   = BLUE
 5   = WHITE     ESC   = Quit
 ------------------------------\n"
 
@@ -55,7 +55,7 @@ rgb: ffffff is-data WHITE
 
 [ reset sdl_render drop
   event SDL_WaitEvent drop
-  event sdl_event_type 
+  event sdl_event_type
 
   switch
   SDL_QUIT [ bye ] case

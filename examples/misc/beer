@@ -10,7 +10,7 @@
 [ " Take one down and pass it around, " type ] is take
 
 #! Wrap it all up
-[ .bottles beer wall .bottles beer cr 
+[ .bottles beer wall .bottles beer cr
   take 1 - .bottles beer wall cr cr
 ] is sing
 

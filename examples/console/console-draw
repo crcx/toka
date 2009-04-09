@@ -29,9 +29,9 @@ console_dimensions to max-y to max-x
 [ FALSE to pen ] is pen-move
 [ check-bounds pen FALSE <> [ x y xy pen emit ] ifTrue x y xy ] is draw
 
-[ 0 max-y xy ." New pen character: " 
-  getkey dup emit to char char to pen 
-  0 max-y xy max-x 1 - [ space ] iterate 
+[ 0 max-y xy ." New pen character: "
+  getkey dup emit to char char to pen
+  0 max-y xy max-x 1 - [ space ] iterate
 ] is change-pen
 
 [ home

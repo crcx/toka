@@ -18,7 +18,7 @@
  " home.html" is-data DEFAULT-PAGE
 
 #! ---------------------------------------------------------------
-#! HTML Document Root 
+#! HTML Document Root
 #!
 #! The HTTP server allows overriding the default docroot at the
 #! command line. For example:
@@ -34,7 +34,7 @@ is-data docroot
 #! 404
 #! Sent when a page is not found.
 #! ---------------------------------------------------------------
-[ 
+[
   " <html>
     <head><title>toka-httpd: 404 Page not found</title></head>
     <body>
@@ -52,7 +52,7 @@ needs shell
 needs case
 
   3 import memset     #! void *memset(void *s, int c, size_t n);
-  6 import sprintf 
+  6 import sprintf
 
   2 import strchr    #! char *strchr(const char *s, int c)
   2 import strstr    #! char *strstr(const char *haystack, const char *needle)
@@ -83,8 +83,8 @@ needs case
 
 #! ---------------------------------------------------------------
 #! new-connection
-#! Setup a new connection. This involves bindings port 80 to 
-#! localhost, and waiting for a client to connect to it. The 
+#! Setup a new connection. This involves bindings port 80 to
+#! localhost, and waiting for a client to connect to it. The
 #! connection and socket variables are set by this code.
 #!
 #! end-connection
@@ -128,9 +128,9 @@ variable| socket connection |
 #! ---------------------------------------------------------------
 #! The following section is for processing requests
 #! Method:    Function:
-#! --------------------------------------------------------------- 
+#! ---------------------------------------------------------------
 #! GET     -  the word GET, used for locating a GET request
-#! DELIMS  -  A set of delimiters used to help break apart 
+#! DELIMS  -  A set of delimiters used to help break apart
 #!            the request
 #! REQUEST -  A string containing a three character request. This
 #!            may need to be made larger in the future.
@@ -138,7 +138,7 @@ variable| socket connection |
  " GET"  is-data GET
  " \n "  is-data DELIMS
 
- 4 chars is-array REQUEST 
+ 4 chars is-array REQUEST
  0 3 REQUEST array.putChar   ( Add a null byte to the REQUEST array )
 
 
@@ -146,7 +146,7 @@ variable| socket connection |
 #! split-request
 #! Copy the first three characters from buffer to REQUEST
 #!
-#! Three characters is enough to identify the most important 
+#! Three characters is enough to identify the most important
 #! requests.
 #! ---------------------------------------------------------------
 [ buffer REQUEST 3 copy REQUEST ] is split-request
@@ -158,7 +158,7 @@ variable| socket connection |
 #! filename.
 #! ---------------------------------------------------------------
 [
-  buffer " /" string.findSubstring char+ 
+  buffer " /" string.findSubstring char+
   DELIMS string.findToken
 ] is extract-filename
 
@@ -199,15 +199,15 @@ variable| socket connection |
 #! ---------------------------------------------------------------
 docroot " CGIOUT" string.append is-data CGIOUT
 
-[ 
+[
   cgi-cmd " %s %s%s >%s" " perl" docroot obtain-filename CGIOUT sprintf
   cgi-cmd system
 ] is cgi:perl
-[ 
+[
   cgi-cmd " %s %s%s >%s" " php" docroot obtain-filename CGIOUT sprintf
   cgi-cmd system
 ] is cgi:php
-[ 
+[
   cgi-cmd " %s %s%s >%s" " toka" docroot obtain-filename CGIOUT sprintf
   cgi-cmd system
 ] is cgi:toka
@@ -253,7 +253,7 @@ docroot " CGIOUT" string.append is-data CGIOUT
 #!
 #! If a CGI script, this will return the output instead.
 #! ---------------------------------------------------------------
-[ 
+[
   check-type-cgi
   check-type-text
 ] is return-requested
@@ -261,7 +261,7 @@ docroot " CGIOUT" string.append is-data CGIOUT
 
 #! ---------------------------------------------------------------
 #! string-case Statement to handle Client Request
-#! When this handles messages other than GET, we may achieve 
+#! When this handles messages other than GET, we may achieve
 #! HTTP/1.0 compatibility.
 #! ---------------------------------------------------------------
 [ split-request
@@ -278,8 +278,8 @@ docroot " CGIOUT" string.append is-data CGIOUT
 #!   REQUEST #  client-request
 #! Most should be GET requests.
 #! ---------------------------------------------------------------
-#! #requests - The total number of requests since the 
-#!             server started 
+#! #requests - The total number of requests since the
+#!             server started
 #!
 #! log-request
 #! Increment #requests and display the request number and actual
@@ -296,12 +296,12 @@ variable| #requests |
 
 
 #! =============================================================== MAIN LOOP
-." Docroot set to: " docroot type cr 
+." Docroot set to: " docroot type cr
 ." ---------- Starting Toka HTTP Daemon ----------\n"
 
 [
   new-connection
-  get-request 
+  get-request
   log-request
   check-request
   end-connection

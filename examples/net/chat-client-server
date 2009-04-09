@@ -3,22 +3,22 @@
 #! =====================================================================
 #! Objective:
 #!   Implement chat client for point to point communication
-#!   
+#!
 #! =====================================================================
-#! Primitives: 
+#! Primitives:
 #!     start-chat
 #!     host-chat
 #!     client-chat
 #!
-#! Usage: 
-#!       
+#! Usage:
+#!
 #!    host or client  ( You will be the host or client )
-#!   
+#!
 #!
 #! Status:
 #!       Host currently works with telnet.
 #!       Toka to Toka is working now.
-#!       
+#!
 #! =====================================================================
 
 #! Libraries
@@ -29,7 +29,7 @@ needs readline
 from libc.so.6
 3 import memset     #! void *memset(void *s, int c, size_t n);
 
-#! Handle Host connection. 
+#! Handle Host connection.
 
 { #! Start Scope
 
@@ -55,7 +55,7 @@ from libc.so.6
  [ ." > " readline to message ] is chat
 
  [
-  [ 
+  [
    chat
    message send
    get-text
@@ -67,9 +67,9 @@ from libc.so.6
  ] is start-chat
 
 [ host-chat start-chat ]
-} is host  #! End Scope 
+} is host  #! End Scope
 
-#! Handle Client connection. 
+#! Handle Client connection.
 
 { #! Start Scope
 #! Data
@@ -90,7 +90,7 @@ from libc.so.6
  [ ." > " readline to message ] is chat
 
  [
-  [ 
+  [
    chat
    message send
    get-text
@@ -101,4 +101,4 @@ from libc.so.6
  ] is start-chat
 
 [ client-chat start-chat ]
-} is client 
+} is client

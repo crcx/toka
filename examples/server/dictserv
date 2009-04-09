@@ -1,4 +1,4 @@
-#! /usr/bin/toka 
+#! /usr/bin/toka
 #! --------------------------------------------------------------
 #! This is the dictionary server; a small tool to present basic
 #! documentation about the Toka words via an HTTP-based interface
@@ -24,7 +24,7 @@
   8KiB is-array buffer
 
   " \n "  is-data DELIMS
-  [ ( - ) 
+  [ ( - )
     buffer 8KiB server.recieve ] is get-request
   [ ( -$ )
     buffer " /" string.findSubstring char+ DELIMS string.findToken ] is extract-filename
@@ -69,12 +69,12 @@
     dup to source
     string.getLength nip char+ 1 swap
     [
-      i char- source array.getChar   
+      i char- source array.getChar
       switch
         char: < [ " &lt;"  server.send break ] case
         char: > [ " &gt;"  server.send break ] case
         char: & [ " &amp;" server.send break ] case
-        [ <cond> 0 output array.putChar output server.send ] default 
+        [ <cond> 0 output array.putChar output server.send ] default
     ] countedLoop
   ] is send-with-escapes
   [ ( $- ) " <option>" server.send send-with-escapes " </option>" server.send ] is <option>
@@ -94,7 +94,7 @@
     form-begin
     " <table>\n<tr><td width='200px'>" server.send
     select-word
-    " </td><td valign='top' width='600px'>" server.send 
+    " </td><td valign='top' width='600px'>" server.send
     display-help " </td>" server.send
     " </tr></table><br/><br/><br/><br/>" server.send
     form-end

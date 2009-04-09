@@ -5,7 +5,7 @@ needs sockets
 {
   variable| socket maxlength |
 
-  [ LF string.appendChar ] is +lf 
+  [ LF string.appendChar ] is +lf
   [ socket @ swap +lf string.getLength pWrite ] is send
 
   1024 1024 * chars is-array buffer
@@ -20,6 +20,6 @@ needs sockets
 
   20 0 [ socket @ buffer maxlength @ pRead
        buffer type reset
-     ] countedLoop 
+     ] countedLoop
 }
 cr bye

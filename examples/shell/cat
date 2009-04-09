@@ -6,8 +6,8 @@
 
 [ " cat: can't open " type type cr ] is error
 
-1 #args [ i arglist array.get 
-        file.slurp dup 0 <> 
+1 #args [ i arglist array.get
+        file.slurp dup 0 <>
         [ type ] [ drop i arglist array.get error ] ifTrueFalse
-      ] countedLoop 
+      ] countedLoop
 bye

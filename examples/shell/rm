@@ -5,7 +5,7 @@ needs shell
 {
   [ ." rm.toka filename [...]\n" ] is usage
   [ #args 0 > [ TRUE ] [ FALSE ] ifTrueFalse ] is check
-  [ check [ 1 #args [ i arglist array.get remove drop ] countedLoop ] [ usage ] ifTrueFalse bye ] 
+  [ check [ 1 #args [ i arglist array.get remove drop ] countedLoop ] [ usage ] ifTrueFalse bye ]
 } is remove:
 
 remove:

@@ -2,9 +2,9 @@
 needs html
 ( html
   ( head ( title ." HTML Generation from Toka" ) )
-  ( body 
+  ( body
     id: content
-    ( div 
+    ( div
       ( p ." Hello, World!" )
     )
   )

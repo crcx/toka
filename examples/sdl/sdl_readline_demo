@@ -13,7 +13,7 @@ sdl_event_size malloc is-data event
 100 100 90 30 rgb: ffffff aline
 100 100 180 30 rgb: ffffff aline
 
-  [  
+  [
     event SDL_WaitEvent drop
     event sdl_event_type switch
     TRUE

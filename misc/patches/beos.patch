@@ -5,8 +5,8 @@ diff -ur toka.h toka.h
   * These specify the paths to the library and bootstrap
   * file. Set them as desired or needed by your system.
   ******************************************************/
--#define LIBRARY "/usr/share/toka/library/" 
+-#define LIBRARY "/usr/share/toka/library/"
 -#define BOOTSTRAP "/usr/share/toka/bootstrap.toka"
-+#define LIBRARY "/boot/apps/TokaLanguage/library/" 
++#define LIBRARY "/boot/apps/TokaLanguage/library/"
 +#define BOOTSTRAP "/boot/apps/TokaLanguage/bootstrap.toka"
 

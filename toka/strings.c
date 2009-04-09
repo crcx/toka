@@ -60,7 +60,6 @@ void string_grow()
 void string_append()
 {
   char *src, *dest;
-  long size;
   src = (char *)TOS; data.sp--;
   string_getLength();
   TOS += (sizeof(char)*2);

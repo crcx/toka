@@ -30,7 +30,7 @@
  * USES bits class cmdline conditionals console
  * USES data debug decompile dictionary ffi files
  * USES gc initial interpret math parser quotes
- * USES stack vm
+ * USES stack strings vm
  *
  * LINUX_LIBS dl
  ******************************************************/

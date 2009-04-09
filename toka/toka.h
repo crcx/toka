@@ -81,6 +81,7 @@ typedef void (*Inst)();
 #include "headers/parser.h"
 #include "headers/quotes.h"
 #include "headers/stack.h"
+#include "headers/strings.h"
 #include "headers/toka.h"
 #include "headers/vm.h"
 

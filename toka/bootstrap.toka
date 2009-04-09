@@ -1,4 +1,4 @@
-[ 102 ] is VERSION
+[ 103 ] is VERSION
 [ 10 parse drop ] is #!
 [ 41 parse drop ] is-macro (
 
@@ -48,8 +48,8 @@
 #! ---------------------------------------
 #! Strings
 #! ---------------------------------------
-[ char: " 
-  parse compiler @ [ $# ] ifTrue 
+[ char: "
+  parse compiler @ [ $# ] ifTrue
 ] is-macro "
 
 
@@ -59,7 +59,7 @@
 [ CR LF emit emit ] is cr
 [ SPACE emit ] is space
 [   TAB emit ] is tab
-[ ` " invoke 
+[ ` " invoke
   compiler @ [ ` type compile ] [ type ] ifTrueFalse
 ] is-macro ."
 [ ." \^[2J"
@@ -105,8 +105,8 @@
 [ TRUE  swap ! ] is on
 [ FALSE swap ! ] is off
 [ dup @ not swap ! ] is toggle
-[ cell-size malloc 
-  parser @ [ swap ] ifFalse is-data 
+[ cell-size malloc
+  parser @ [ swap ] ifFalse is-data
 ] is variable
 [ parser off
   [ wsparse
@@ -139,7 +139,7 @@
 [ 2 ] is CURRENT
 [ 3 ] is END
 
-[ "R" file.open 
+[ "R" file.open
   dup 0 <>
   [
     dup dup
@@ -154,7 +154,7 @@
 #! Arrays
 #! ---------------------------------------
 [ parser @
-  [ malloc ] [ >r malloc r> ] ifTrueFalse is-data 
+  [ malloc ] [ >r malloc r> ] ifTrueFalse is-data
 ] is is-array
 [ swap cell-size * + @ ] is array.get
 [ swap cell-size * + ! ] is array.put
@@ -187,7 +187,7 @@
 {
   variable update
   [ update on ]
-  [ cell-size malloc [ update @ [ ! ] [ @ ] ifTrueFalse update off ] +action ] 
+  [ cell-size malloc [ update @ [ ! ] [ @ ] ifTrueFalse update off ] +action ]
 } is value
   is to
 [ parser off
@@ -203,25 +203,9 @@
 #! Strings
 #! ---------------------------------------
 {
-  1 import strlen 
-  [ dup strlen ]
-} is string.getLength 
-{
-  2 import strcpy
-  [ >r string.getLength char+ r> + malloc swap strcpy ]
-} is string.grow
-{
-  2 import strcat
-  [ swap string.getLength 2 chars + string.grow swap strcat ]
-} is string.append
-{
   2 chars is-array append
   [ 0 append array.putChar append string.append ]
 } is string.appendChar
-{
-  2 import strcmp
-  [ strcmp 0 = ]
-} is string.compare
 [ 1 string.grow ] is string.clone
 
 

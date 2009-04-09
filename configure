@@ -3,15 +3,15 @@
 ##################################################################
 # Toka Configuration Script
 #
-# This is used to generate a custom Makefile. It asks for the 
-# requested options, then builds the Makefile. 
+# This is used to generate a custom Makefile. It asks for the
+# requested options, then builds the Makefile.
 ##################################################################
 
 
 ##################################################################
 # Variables for configuration options.
 ##################################################################
-platform="unix"                 # What is the host OS? Default to 
+platform="unix"                 # What is the host OS? Default to
                                 # 'unix', which covers Linux & BSD
                                 #
 ffi=""                          # Compiler flags for linking to
@@ -275,7 +275,7 @@ libraries()
 
 
 ##################################################################
-# Display a summary of the selected build options. 
+# Display a summary of the selected build options.
 ##################################################################
 summary()
 {
@@ -422,7 +422,7 @@ generate()
   if [ "$platform" = "windows" ]; then
     echo >>toka/Makefile  "OTHER = -mno-cygwin"
   fi
-  echo >>toka/Makefile  "DEPS = bits.c class.c cmdline.c conditionals.c console.c data.c debug.c decompile.c dictionary.c errors.c ffi.c files.c gc.c initial.c interpret.c math.c parser.c quotes.c stack.c toka.c vm.c"
+  echo >>toka/Makefile  "DEPS = bits.c class.c cmdline.c conditionals.c console.c data.c debug.c decompile.c dictionary.c errors.c ffi.c files.c gc.c initial.c interpret.c math.c parser.c quotes.c stack.c strings.c toka.c vm.c"
   echo >>toka/Makefile  toka: $\(DEPS\)
   echo >>toka/Makefile  "	" gcc $\(CFLAGS\) $\(LDFLAGS\) $\(OTHER\) $\(DEPS\) -o toka
   echo >>toka/Makefile  ""
@@ -475,7 +475,7 @@ generate()
 ##################################################################
 header                                      # Display the header
 cleanup                                     # Remove old Makefiles
-needs_libdl                                 # Do we need to link 
+needs_libdl                                 # Do we need to link
                                             # against libdl.so?
 host                                        # Get the host OS
 options                                     # Get optional parts

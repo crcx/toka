@@ -1,22 +1,20 @@
- _____     _         
-|_   _|__ | | ____ _ 
+ _____     _
+|_   _|__ | | ____ _
   | |/ _ \| |/ / _` |
   | | (_) |   < (_| |
   |_|\___/|_|\_\__,_|
-                     
-Toka is a programming language that draws on 
-my experiences with a variety of languages. 
-It's still experimental, so things sometimes 
-change significantly with little to no warning. 
+
+Toka is a programming language that draws on my experiences
+with a variety of languages. It's still experimental, so things
+sometimes change significantly with little to no warning.
 Overall it does work suprising well though.
 
-The language has been influenced by my 
-experiences with RetroForth, HelFORTH, Factor, 
-and other languages. In most respects it shows 
-a strong bias towards Forth. It does have some 
-extra things (quotes, garbage collection, etc) 
-that make programming easier for me.
-================================================
+The language has been influenced by my experiences with Retro,
+HelFORTH, Factor, and other languages. In most respects it
+shows a strong bias towards Forth. It does have some extra
+things (quotes, garbage collection, etc) that make programming
+easier for me.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUILDING AND INSTALLATION
 
 1) Run the configuration tool and answer the
@@ -27,39 +25,46 @@ BUILDING AND INSTALLATION
 
 2) Run "make" then "sudo make install"
 
-   This will put 'toka' into /usr/bin, and 
-   create /usr/share/toka, where 'bootstrap.toka'
-   will be placed.
+   This will put 'toka' into /usr/bin, and create
+   /usr/share/toka, where 'bootstrap.toka' will be placed.
 
-   Any optional components you selected will be 
-   built and installed as well.
-================================================
+   Any optional components you selected will be built and
+   installed as well.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 CHANGES
 
-- Completely rewritten build system
-- Ports
-  - Improved: BeOS
-  - New: Windows (Win32, not Cygwin)
-- Cleanups
-  - Alternate stack now separate from Address
-    ("Return") stack
-  - Address stack increased to 2048 slots
-  - Stacks and stack pointers are now kept in
-    structs rather than totally separate global
-    variables.
-  - Renamings in vm_
-  - Primitives are now handled differently. They
-    are wrapped in quotes during the initial
-    dictionary setup.
-    - Allows removal of: .PRIM_WORD, .PRIM_MACRO
-    - Simplified implementation of `
-- Bugfixes
-  - Decompiler now recognizes "` <name>" forms
-  - Stack comments and/or descriptions have been
+Current
+  - Strings no longer dynamically imported by bootstrap.toka
+  - Removal of trailing whitespace in all source files
+    (not yet completed)
+
+
+1.2
+  - Completely rewritten build system
+  - Ports
+    - Improved: BeOS
+    - New: Windows (Win32, not Cygwin)
+  - Cleanups
+    - Alternate stack now separate from Address
+      ("Return") stack
+    - Address stack increased to 2048 slots
+    - Stacks and stack pointers are now kept in
+      structs rather than totally separate global
+      variables.
+    - Renamings in vm_
+    - Primitives are now handled differently. They
+      are wrapped in quotes during the initial
+      dictionary setup.
+      - Allows removal of: .PRIM_WORD, .PRIM_MACRO
+      - Simplified implementation of `
+  - Bugfixes
+    - Decompiler now recognizes "` <name>" forms
+    - Stack comments and/or descriptions have been
     corrected
 
-1.1 
-  - Added VERSION 
+
+1.1
+  - Added VERSION
   - Added >string
 
 

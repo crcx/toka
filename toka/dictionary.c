@@ -5,22 +5,22 @@
  *|F| FILE: dictionary.c
  *|F|
  *
- * Copyright (c) 2006, 2007  Charles R. Childers
+ * Copyright (c) 2006-2009  Charles R. Childers
  *
- * Permission to use, copy, modify, and distribute this 
- * software for any purpose with or without fee is hereby 
- * granted, provided that the above copyright notice and 
+ * Permission to use, copy, modify, and distribute this
+ * software for any purpose with or without fee is hereby
+ * granted, provided that the above copyright notice and
  * this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR 
- * DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE 
- * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY 
- * AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE 
- * FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL 
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS 
- * OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF 
- * CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING 
- * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR
+ * DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE
+ * FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+ * OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+ * CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
+ * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THIS SOFTWARE.
  ******************************************************/
 
@@ -42,7 +42,7 @@ extern VM_STACK data, address, alternate;
 /******************************************************
  *|F| Variables:
  *|F|   ENTRY dictionary[MAX_DICTIONARY_ENTRIES];
- *|F|   Holds the dictionary entries, up to 
+ *|F|   Holds the dictionary entries, up to
  *|F|   MAX_DICTIONARY_ENTRIES
  *|F|
  *|F|   long last
@@ -90,7 +90,7 @@ void add_entry(char *name, void *xt, void *class, long primitive)
 
 /******************************************************
  *|F| name_attach(void *class)
- *|F| Attach a name (from the input stream) to the 
+ *|F| Attach a name (from the input stream) to the
  *|F| specified quote address. This word is given the
  *|F| semantics of the specified class.
  *|F|
@@ -120,7 +120,7 @@ void name_attach(void *class)
  *|G|          ( a$- )     Non-parsing form
  *
  *|F| name_quote()
- *|F| Attach a name (from the input stream) to the 
+ *|F| Attach a name (from the input stream) to the
  *|F| specified quote address. This word is given the
  *|F| semantics of quote_word_class().
  *|F|
@@ -136,7 +136,7 @@ void name_quote()
  *|G|          ( a$- )     Non-parsing form
  *
  *|F| name_macro()
- *|F| Attach a name (from the input stream) to the 
+ *|F| Attach a name (from the input stream) to the
  *|F| specified quote address. This word is given the
  *|F| semantics of quote_macro_class().
  *|F|
@@ -179,7 +179,7 @@ void find_word()
   flag = 0;
   for (a = last; a > 0; a--)
   {
-    if ((strcmp(dictionary[a].name, s) == 0) && flag == FALSE) 
+    if ((strcmp(dictionary[a].name, s) == 0) && flag == FALSE)
     {
       vm_push((long)dictionary[a].xt);
       vm_push((long)dictionary[a].class);
@@ -240,15 +240,15 @@ void return_quote()
 
 
 /******************************************************
- *|G| :name    ( n-$ )     Return the name for a 
+ *|G| :name    ( n-$ )     Return the name for a
  *|G|                      dictionary entry
- *|G| :xt      ( n-$ )     Return the address of a 
+ *|G| :xt      ( n-$ )     Return the address of a
  *|G|                      dictionary entry
- *|G| :class   ( n-$ )     Return the class # for a 
+ *|G| :class   ( n-$ )     Return the class # for a
  *|G|                      dictionary entry
  *
  *|F| return_name()
- *|F| Return a pointer to the name and the starting 
+ *|F| Return a pointer to the name and the starting
  *|F| address of a specific dictionary entry.
  *|F|
  *|F| return_xt()

@@ -3,24 +3,24 @@
  *
  *|F|
  *|F| FILE: cmdline.c
- *|F| 
+ *|F|
  *
- * Copyright (c) 2006, 2007  Charles R. Childers
+ * Copyright (c) 2006-2009  Charles R. Childers
  *
- * Permission to use, copy, modify, and distribute this 
- * software for any purpose with or without fee is hereby 
- * granted, provided that the above copyright notice and 
+ * Permission to use, copy, modify, and distribute this
+ * software for any purpose with or without fee is hereby
+ * granted, provided that the above copyright notice and
  * this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR 
- * DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE 
- * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY 
- * AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE 
- * FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL 
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS 
- * OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF 
- * CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING 
- * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR
+ * DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE
+ * FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+ * OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+ * CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
+ * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THIS SOFTWARE.
  ******************************************************/
 
@@ -37,7 +37,7 @@
  *|F|   Holds the number of command line arguments
  *|F|
  *|F|   char *arg_list[128]
- *|F|   Holds the list of command line arguments. 
+ *|F|   Holds the list of command line arguments.
  *|F|
  ******************************************************/
 long arg_count;
@@ -58,7 +58,7 @@ void num_args()
 
 
 /******************************************************
- *|G| arglist  (  -a )     Return a pointer to the 
+ *|G| arglist  (  -a )     Return a pointer to the
  *|G|                      array of command line arguments.
  *
  *|F| get_arg_list()

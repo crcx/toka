@@ -5,22 +5,22 @@
  *|F| FILE: quotes.c
  *|F|
  *
- * Copyright (c) 2006, 2007  Charles R. Childers
+ * Copyright (c) 2006 - 2009  Charles R. Childers
  *
- * Permission to use, copy, modify, and distribute this 
- * software for any purpose with or without fee is hereby 
- * granted, provided that the above copyright notice and 
+ * Permission to use, copy, modify, and distribute this
+ * software for any purpose with or without fee is hereby
+ * granted, provided that the above copyright notice and
  * this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR 
- * DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE 
- * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY 
- * AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE 
- * FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL 
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS 
- * OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF 
- * CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING 
- * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR
+ * DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE
+ * FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+ * OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+ * CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
+ * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THIS SOFTWARE.
  ******************************************************/
 
@@ -206,7 +206,7 @@ void countedLoop()
  *|F| truefalse()
  *|F| Takes three items (true-xt, false-xt, and a flag)
  *|F| from the stack. Stack should be passed in as:
- *|F|   flag true false 
+ *|F|   flag true false
  *|F| It will execute true if the flag is true, or false
  *|F| if the flag is false. If the flag is not true
  *|F| or false, neither quote will be executed.
@@ -240,7 +240,7 @@ void truefalse()
  *|F| Compiles a call to the top-level quote. As a
  *|F| trivial example:
  *|F|   [ dup 1 > [ dup 1 - recurse swap 2 - recurse + ] ifTrue ] is fib
- *|F| 
+ *|F|
  ******************************************************/
 void recurse()
 {
@@ -254,23 +254,23 @@ void recurse()
  *|F| Push the value in the following memory location
  *|F| to the stack. This is used instead of lit() so
  *|F| that the decompiler (and eventually debugger) can
- *|F| reliably identify nested quotes as opposed to 
+ *|F| reliably identify nested quotes as opposed to
  *|F| regular literals.
- *|F| 
+ *|F|
  ******************************************************/
 void qlit()
 {
   vm_push((long)*ip);
   ip++;
 }
-           
+
 
 /******************************************************
  *|G| i        ( -n )      Return the current loop index
  *
  *|F| quote_index()
  *|F| Return the current loop index (counter)
- *|F| 
+ *|F|
  ******************************************************/
 void quote_index()
 {
@@ -286,7 +286,7 @@ void quote_index()
  *|F| quote_while_true()
  *|F| Return execution of a quote until the quote
  *|F| returns FALSE.
- *|F| 
+ *|F|
  ******************************************************/
 void quote_while_true()
 {
@@ -314,7 +314,7 @@ void quote_while_true()
  *|F| quote_while_false()
  *|F| Return execution of a quote until the quote
  *|F| returns TRUE.
- *|F| 
+ *|F|
  ******************************************************/
 void quote_while_false()
 {

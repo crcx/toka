@@ -3,24 +3,24 @@
  *
  *|F|
  *|F| FILE: data.c
- *|F| 
+ *|F|
  *
- * Copyright (c) 2006, 2007  Charles R. Childers
+ * Copyright (c) 2006-2009  Charles R. Childers
  *
- * Permission to use, copy, modify, and distribute this 
- * software for any purpose with or without fee is hereby 
- * granted, provided that the above copyright notice and 
+ * Permission to use, copy, modify, and distribute this
+ * software for any purpose with or without fee is hereby
+ * granted, provided that the above copyright notice and
  * this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR 
- * DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE 
- * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY 
- * AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE 
- * FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL 
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS 
- * OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF 
- * CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING 
- * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR
+ * DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE
+ * FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+ * OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+ * CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
+ * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THIS SOFTWARE.
  ******************************************************/
 
@@ -47,7 +47,7 @@ void make_literal()
 {
   gc_keep();
   *heap++ = (Inst)&vm_lit;
-  *heap++ = (Inst)TOS; 
+  *heap++ = (Inst)TOS;
   DROP;
 }
 
@@ -57,7 +57,7 @@ void make_literal()
  *|G|                      TOS into a definition.
  *
  *|F| make_string_literal()
- *|F| Compile a call to string_lit() and then place TOS 
+ *|F| Compile a call to string_lit() and then place TOS
  *|F| into the next memory location.
  *|F|
  ******************************************************/
@@ -65,7 +65,7 @@ void make_string_literal()
 {
   gc_keep();
   *heap++ = (Inst)&vm_string_lit;
-  *heap++ = (Inst)TOS; 
+  *heap++ = (Inst)TOS;
   DROP;
 }
 

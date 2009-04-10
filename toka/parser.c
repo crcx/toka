@@ -5,22 +5,22 @@
  *|F| FILE: parser.c
  *|F|
  *
- * Copyright (c) 2006, 2007  Charles R. Childers
+ * Copyright (c) 2006 - 2009  Charles R. Childers
  *
- * Permission to use, copy, modify, and distribute this 
- * software for any purpose with or without fee is hereby 
- * granted, provided that the above copyright notice and 
+ * Permission to use, copy, modify, and distribute this
+ * software for any purpose with or without fee is hereby
+ * granted, provided that the above copyright notice and
  * this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR 
- * DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE 
- * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY 
- * AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE 
- * FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL 
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS 
- * OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF 
- * CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING 
- * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR
+ * DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE
+ * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE
+ * FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+ * OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+ * CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
+ * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THIS SOFTWARE.
  ******************************************************/
 
@@ -127,15 +127,15 @@ void to_number()
        {
          flag = FALSE;
          break;
-       } 
+       }
      }
-     else 
+     else
      {
        if (!isxdigit(*t))
        {
          flag = FALSE;
          break;
-       } 
+       }
      }
   }
 
@@ -173,7 +173,7 @@ void to_string()
 
 
 /******************************************************
- *|G| parse    ( d-a )     Parse until the character 
+ *|G| parse    ( d-a )     Parse until the character
  *|G|                      represented by 'd' is found.
  *|G|                      Return a pointer to the string
  *
@@ -198,8 +198,8 @@ void parse()
 
 /******************************************************
  *|F| get_token(char *s, long delim)
- *|F| Return a string (in "s") up to the specified 
- *|F| delimiter. This also puts the resulting string 
+ *|F| Return a string (in "s") up to the specified
+ *|F| delimiter. This also puts the resulting string
  *|F| on the stack.
  *|F|
  ******************************************************/

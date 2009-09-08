@@ -80,11 +80,63 @@ void vm_run(Inst prog[])
     vm_stack_check();
     switch((long)*ip)
     {
-      case 0:
+      case 0:   /* nop */
         break;
-      case 1:
+      case 1:   /* lit */
         *ip++;
         vm_push((long)*ip++);
+        break;
+      case 2:   /* dup */
+        break;
+      case 3:   /* drop */
+        break;
+      case 4:   /* swap */
+        break;
+      case 5:   /* push */
+        break;
+      case 6:   /* pop */
+        break;
+      case 7:   /* call */
+        break;
+      case 8:   /* jump */
+        break;
+      case 9:   /* return */
+        break;
+      case 10:  /* gt_jump */
+        break;
+      case 11:  /* lt_jump */
+        break;
+      case 12:  /* ne_jump */
+        break;
+      case 13:  /* eq_jump */
+        break;
+      case 14:  /* fetch */
+        break;
+      case 15:  /* store */
+        break;
+      case 16:  /* add */
+        break;
+      case 17:  /* subtract */
+        break;
+      case 18:  /* multiply */
+        break;
+      case 19:  /* divmod */
+        break;
+      case 20:  /* and */
+        break;
+      case 21:  /* or */
+        break;
+      case 22:  /* xor */
+        break;
+      case 23:  /* shift_left */
+        break;
+      case 24:  /* shift_right */
+        break;
+      case 25:  /* zero_return */
+        break;
+      case 26:  /* inc */
+        break;
+      case 27:  /* dec */
         break;
       default:
         ((*ip++)());

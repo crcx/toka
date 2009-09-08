@@ -91,6 +91,10 @@ void decompile(Inst *xt)
       if (resolve_name(this) == FALSE)
         printf("<vm:int %li> ", (long)this);
     }
+    if (this == (Inst)27)
+    {
+      printf("<vm:dec %li> ", (long)this);
+    }
     if (this == &vm_lit)
     {
       this = (Inst)*xt++;

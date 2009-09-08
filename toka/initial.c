@@ -155,4 +155,5 @@ void build_dictionary()
 
   /* vm.c */
   add_entry("heap",      &heap,          &data_class, TRUE);
+  add_entry(",", &vm_comma, &word_class, TRUE);
 }

@@ -89,59 +89,108 @@ void vm_run(Inst prog[])
         break;
       case 2:   /* dup */
         vm_push(TOS);
+        *ip++;
         break;
       case 3:   /* drop */
         data.sp--;
+        *ip++;
         break;
       case 4:   /* swap */
         a = TOS;    b = NOS;
         TOS = b;    NOS = a;
+        *ip++;
         break;
       case 5:   /* push */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 6:   /* pop */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 7:   /* call */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 8:   /* jump */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 9:   /* return */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 10:  /* gt_jump */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 11:  /* lt_jump */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 12:  /* ne_jump */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 13:  /* eq_jump */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 14:  /* fetch */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 15:  /* store */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 16:  /* add */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 17:  /* subtract */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 18:  /* multiply */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 19:  /* divmod */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 20:  /* and */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 21:  /* or */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 22:  /* xor */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 23:  /* shift_left */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 24:  /* shift_right */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 25:  /* zero_return */
+        printf("\nvm:%li not implemented!\n", (long)ip);
+        *ip++;
         break;
       case 26:  /* inc */
+        TOS++;
+        *ip++;
         break;
       case 27:  /* dec */
+        TOS--;
+        *ip++;
         break;
       default:
         ((*ip++)());
@@ -224,4 +273,10 @@ void vm_primitive()
   Inst xt;
   xt = (Inst )*ip++;
   ((xt)());
+}
+
+
+void vm_comma()
+{
+  *heap++ = (Inst)TOS; data.sp--;
 }

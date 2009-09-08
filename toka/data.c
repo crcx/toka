@@ -46,7 +46,7 @@ extern VM_STACK data, address, alternate;
 void make_literal()
 {
   gc_keep();
-  *heap++ = (Inst)&vm_lit;
+  *heap++ = (Inst)1;//&vm_lit;
   *heap++ = (Inst)TOS;
   DROP;
 }
@@ -64,7 +64,7 @@ void make_literal()
 void make_string_literal()
 {
   gc_keep();
-  *heap++ = (Inst)&vm_string_lit;
+  *heap++ = (Inst)1;//&vm_string_lit;
   *heap++ = (Inst)TOS;
   DROP;
 }

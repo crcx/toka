@@ -78,7 +78,18 @@ void vm_run(Inst prog[])
   while (*ip != 0)
   {
     vm_stack_check();
-    ((*ip++)());
+    switch((long)*ip)
+    {
+      case 0:
+        break;
+      case 1:
+        *ip++;
+        vm_push((long)*ip++);
+        break;
+      default:
+        ((*ip++)());
+        break;
+    }
   }
 }
 

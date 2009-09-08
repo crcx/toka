@@ -85,11 +85,17 @@ void decompile(Inst *xt)
       this = (Inst)*xt++;
       printf("<primitive: %li> ", (long)this);
     }
+    if (this == (Inst)1)
+    {
+      this = (Inst)*xt++;
+      if (resolve_name(this) == FALSE)
+        printf("<vm:int %li> ", (long)this);
+    }
     if (this == &vm_lit)
     {
       this = (Inst)*xt++;
       if (resolve_name(this) == FALSE)
-        printf("%li ", (long)this);
+        printf("vm_lit:%li ", (long)this);
     }
     if (this == &vm_quote_lit)
     {

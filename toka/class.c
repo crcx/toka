@@ -41,7 +41,7 @@ extern Inst *heap;
 void data_class()
 {
   if (COMPILING) {
-    *heap++ = (Inst)&vm_lit;
+    *heap++ = (Inst)1;//&vm_lit;
     *heap++ = (Inst)TOS; DROP;
   }
 }

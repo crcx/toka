@@ -1,0 +1,7 @@
+Toka (2.0)
+---------------------------------------------------------------
+This is an update to the Toka language. The words, etc provided
+will see only small changes, but the internal design is being
+cleaned up, and now makes use of a hybrid bytecode/direct thread
+model. (The bytecode is a superset of that recognized by the
+Ngaro Virtual Machine).

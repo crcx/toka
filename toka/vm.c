@@ -74,6 +74,7 @@ void vm_init()
  ******************************************************/
 void vm_run(Inst prog[])
 {
+  long a, b;
   ip = prog;
   while (*ip != 0)
   {
@@ -87,10 +88,14 @@ void vm_run(Inst prog[])
         vm_push((long)*ip++);
         break;
       case 2:   /* dup */
+        vm_push(TOS);
         break;
       case 3:   /* drop */
+        data.sp--;
         break;
       case 4:   /* swap */
+        a = TOS;    b = NOS;
+        TOS = b;    NOS = a;
         break;
       case 5:   /* push */
         break;
